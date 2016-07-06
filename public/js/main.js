@@ -80,7 +80,7 @@ function setTruckInitData(truck,_data,map){
                 "marker":new google.maps.Marker({
                     position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]),
                     icon:(function(){
-                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == 'true'){
+                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == '1'){
                             return "/images/marker-green.png";
                         }else{
                             return "/images/marker-red.png";
