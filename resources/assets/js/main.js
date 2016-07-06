@@ -1,3 +1,43 @@
+
+var App = (function() {
+
+    function App() {
+        console.log("app");
+    }
+
+    App.prototype.loadData = function() {
+
+        var options = {
+            _token: $("#_token").val()
+        };
+
+        var jqxhr = $.ajax({
+            url: "/truck/maps/data",
+            method: "POST",
+            data: options,
+            dataType: "json"
+        });
+
+        jqxhr.done(this.Data);
+
+        jqxhr.fail(function(jqxhr,e) {
+            console.dir(e);
+        });
+    }
+
+    App.prototype.Data = function(data) {
+        console.dir(data);
+        this._data = data.slice(0);
+        return  this._data;
+    }
+    
+
+    return App;
+
+})();
+
+
+
 // Add a control that returns the user to center
 function Control(controlDiv, map) {
   controlDiv.style.padding = '5px';
@@ -24,60 +64,122 @@ function Control(controlDiv, map) {
   });
 }
 
-//setTruckData() - turn the data into markers
-//truck[] - this contains all the truck data neede to make markers
-//map[] - the google map class
-function setTruckData(truck,data,map){
 
+
+function setTruckInitData(truck,_data,map){
+    var data =  _data.slice(0);
     for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < truck.length; j++) {
-            if(truck[j]["plate"] == data[i]["truck-plate"]){
-                console.log("same");
-                
-                truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]["truck-lat"], data[i]["truck-lng"]));
-                truck[j]["marker"].setIcon((function(){
-                    if(data[i]["truck-active"] == 'true'){
-                        return "/images/marker-green.png";
-                    }else{
-                        return "/images/marker-red.png";
-                    }
-                })());
-                truck[j]["infowindow"].setContent(data[i]["name"]);
-                data.splice(i, 1);
-            }
+        var dataLen =  data[i]['data'].length
+        if( dataLen > 0){
+
+            let len = truck.push({
+                "marker":new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]),
+                    icon:(function(){
+                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == 'true'){
+                            return "/images/marker-green.png";
+                        }else{
+                            return "/images/marker-red.png";
+                        }
+                    })()
+                }),
+                "infowindow" : new google.maps.InfoWindow({
+                    content: JSON.stringify(data[i])
+                }),
+                "number":data[i]["truck-number"],
+                "active":data[i]['data'][dataLen - 1]["truck-active"],
+                "lat":data[i]['data'][dataLen - 1]["truck-lat"],
+                "lng":data[i]['data'][dataLen - 1]["truck-lng"]
+            });
+
+            truck[len - 1]["marker"].setMap(map);
+            google.maps.event.addListener(truck[len - 1]["marker"], 'click', function() {
+                truck[len - 1]["infowindow"].open(map, truck[len - 1]["marker"]);
+                map.panTo(truck[len - 1]["marker"].getPosition());
+                map.setZoom(9);
+            });
+
         }
-    }
 
-    for (let i = 0; i < data.length; i++) {
-        let len = truck.push({
-            "marker":new google.maps.Marker({
-                position: new google.maps.LatLng(data[i]["truck-lat"], data[i]["truck-lng"]),
-                icon:(function(){
-                    if(data[i]["truck-active"] == 'true'){
-                        return "/images/marker-green.png";
-                    }else{
-                        return "/images/marker-red.png";
-                    }
-                })()
-            }),
-            "infowindow" : new google.maps.InfoWindow({
-                content: data[i]["name"]
-            }),
-            "plate":data[i]["truck-plate"],
-            "active":data[i]["truck-active"]
-        });
-
-        truck[len - 1]["marker"].setMap(map);
-        google.maps.event.addListener(truck[len - 1]["marker"], 'click', function() {
-            truck[len - 1]["infowindow"].open(map, truck[len - 1]["marker"]);
-            map.panTo(truck[len - 1]["marker"].getPosition());
-            map.setZoom(7);
-        });
+        
 
     }
 }
 
+
+
+//setTruckData() - turn the data into markers
+//truck[] - this contains all the truck data neede to make markers
+//map[] - the google map class
+function setTruckData(truck,_data,map){
+
+    var data =  _data.slice(0);
+    var len;
+
+    for (let i = 0; i < data.length; i++) {
+        var dataLen =  data[i]['data'].length;
+        for (let j = 0; j < truck.length; j++) {
+
+            if(truck[j]["number"] == data[i]["truck-number"]){
+
+                console.log("same");
+                if(!((data[i]['data'][dataLen - 1]["truck-lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["truck-lng"] == truck[j]["lng"]))){
+
+                    truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]));
+                    truck[j]["marker"].setIcon((function(){
+                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == 'true'){
+                            return "/images/marker-green.png";
+                        }else{
+                            return "/images/marker-red.png";
+                        }
+                    })());
+                    truck[j]["infowindow"].setContent(JSON.stringify(data[i]));
+
+                }
+                
+            }
+
+        }
+
+    }
+
+}
+
+
+
 function initialize() {
+
+    function loadInitData() {
+
+        var options = {
+            _token: $("#_token").val()
+        };
+
+        var jqxhr = $.ajax({
+            url: "/truck/maps/data",
+            method: "POST",
+            data: options,
+            dataType: "json"
+        });
+
+        var cool = jqxhr.done(function(_data){
+            //setTruckData(truck,data,map);
+            setTruckInitData(truck,_data,map);
+            console.dir(_data);
+        });
+
+        jqxhr.fail(function(jqxhr,e) {
+            console.dir(e);
+        });
+
+
+        console.dir(jqxhr);
+        return jqxhr;
+
+    }
+
+
+    var data;
     var mapProp = {
         center: new google.maps.LatLng(9.180471, 7.916594),
         zoom: 6,
@@ -93,49 +195,22 @@ function initialize() {
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ControlDiv);
 
-    var data = [
-        {
-            "name" : "Oluseye T Odeleye",
-            "tel" : "12049307308",
-            "email" : "odeleye.emmanuel@gmail.com",
-            "truck-type" : "red",
-            "truck-model" : "civic",
-            "truck-maker" : "honda",
-            "truck-tons" : "1000",
-            "truck-plate" : "d3d5g5",
-            "truck-number" : "0001",
-            "truck-speed" : "50",
-            "truck-lat" : "7.441208",
-            "truck-lng" : " 4.273389",
-            "truck-active" : "false"
-        }
-    ];
-
-    var new_data = [
-        {
-            "name" : "Oluseye T Odeleye",
-            "tel" : "12049307308",
-            "email" : "odeleye.emmanuel@gmail.com",
-            "truck-type" : "red",
-            "truck-model" : "civic",
-            "truck-maker" : "honda",
-            "truck-tons" : "1000",
-            "truck-plate" : "d3d5g5",
-            "truck-number" : "0001",
-            "truck-speed" : "50",
-            "truck-lat" : "6.536902",
-            "truck-lng" : "3.367143",
-            "truck-active" : "true"
-        }
-    ];
-
     var truck = [];
+    
+    loadInitData();
+    
 
-    setTruckData(truck,data,map);
-    function cool(){
-        setTruckData(truck,new_data,map); 
+   /* function cool(){
+        console.log("cool");
+        for (let i = 0; i < data.length; i++) {
+            data[i]["truck-lat"] = Math.random() * (13 - 6) + 6;
+            data[i]["truck-lng"] = Math.random() * (12 - 3) + 3;
+            data[i]["truck-active"] =  Math.random() >= 0.5;
+            console.log("changed");
+        }
+        setTruckData(truck,data,map); 
     }
-    window.setTimeout(cool, 5000);
+    window.setInterval(cool, 1000);*/
       
 
 

@@ -36,7 +36,7 @@ body{
 		padding:10px;
 		text-decoration:none;
 		transition:all 500ms ease;
-		box-shadow:5px 5px 5px #333;
+		box-shadow:0px 14px 2px -10px #333;
 		&:hover{
 			background:#333;
 		}
@@ -59,6 +59,27 @@ body{
 	}
 	& h1{
 		color:#fff;
+	}
+}
+
+.alert{
+	& > ul{
+		list-style:none;
+		padding:0px;
+		margin:0px;
+	}
+	& ul li{
+		color:white;
+		padding:5px;
+		display:block;
+		width:250px;
+		margin-bottom:5px;
+	}
+}
+
+.alert-danger{
+	& ul li{
+		background:#9a1111;
 	}
 }
 
