@@ -124,10 +124,10 @@ function setTruckData(truck,_data,map){
 
                 console.log("same");
                 if(!((data[i]['data'][dataLen - 1]["truck-lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["truck-lng"] == truck[j]["lng"]))){
-
+                    console.log("data change");
                     truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]));
                     truck[j]["marker"].setIcon((function(){
-                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == 'true'){
+                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == '1'){
                             return "/images/marker-green.png";
                         }else{
                             return "/images/marker-red.png";
@@ -135,6 +135,8 @@ function setTruckData(truck,_data,map){
                     })());
                     truck[j]["infowindow"].setContent(JSON.stringify(data[i]));
 
+                }else{
+                    console.log("no data change");
                 }
                 
             }
@@ -162,10 +164,8 @@ function initialize() {
             dataType: "json"
         });
 
-        var cool = jqxhr.done(function(_data){
-            //setTruckData(truck,data,map);
+        jqxhr.done(function(_data){
             setTruckInitData(truck,_data,map);
-            console.dir(_data);
         });
 
         jqxhr.fail(function(jqxhr,e) {
@@ -173,13 +173,34 @@ function initialize() {
         });
 
 
-        console.dir(jqxhr);
-        return jqxhr;
-
     }
 
+    function loadData(){
+        var options = {
+            _token: $("#_token").val()
+        };
 
-    var data;
+        var jqxhr = $.ajax({
+            url: "/truck/maps/data",
+            method: "POST",
+            data: options,
+            dataType: "json"
+        });
+
+        jqxhr.done(function(_data){
+            setTruckData(truck,_data,map);
+        });
+
+        jqxhr.fail(function(jqxhr,e) {
+            console.dir(e);
+        });
+    }
+
+    function newData(){
+            console.log("loading new data");
+            loadData();
+    }
+
     var mapProp = {
         center: new google.maps.LatLng(9.180471, 7.916594),
         zoom: 6,
@@ -187,6 +208,7 @@ function initialize() {
     };
 
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    var truck = [];
 
     // Create a DIV to hold the control and call Control()
     var ControlDiv = document.createElement('div');
@@ -195,22 +217,12 @@ function initialize() {
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ControlDiv);
 
-    var truck = [];
+    
     
     loadInitData();
     
 
-   /* function cool(){
-        console.log("cool");
-        for (let i = 0; i < data.length; i++) {
-            data[i]["truck-lat"] = Math.random() * (13 - 6) + 6;
-            data[i]["truck-lng"] = Math.random() * (12 - 3) + 3;
-            data[i]["truck-active"] =  Math.random() >= 0.5;
-            console.log("changed");
-        }
-        setTruckData(truck,data,map); 
-    }
-    window.setInterval(cool, 1000);*/
+    window.setInterval(newData, 30000);
       
 
 
