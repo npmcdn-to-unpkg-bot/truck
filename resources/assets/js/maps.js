@@ -134,7 +134,7 @@ function setTruckData(truck,_data,map){
                             return "/images/marker-red.png";
                         }
                     })());
-                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Driver's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Driver's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> ");
+                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['truck_plate'] + " <br/> ");
 
                 }else{
                     console.log("no data change");
