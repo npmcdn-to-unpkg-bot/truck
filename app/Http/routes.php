@@ -129,7 +129,10 @@ Route::any('truck/maps/input/{truckNumber}/{truckSpeed}/{truckLat}/{truckLng}/{t
 });
 
 Route::get('trucks', function () {
-    return "<h1 style='font-size:50px'>working on it </h1>";
+    $trucks = App\Truck::with('data')->get();
+    return view('trucks',[
+        'trucks' => $trucks,
+    ]);
 });
 
 Route::get('truck/maps/input', function () {
