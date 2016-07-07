@@ -101,7 +101,7 @@ function setTruckInitData(truck,_data,map){
             google.maps.event.addListener(truck[len - 1]["marker"], 'click', function() {
                 truck[len - 1]["infowindow"].open(map, truck[len - 1]["marker"]);
                 map.panTo(truck[len - 1]["marker"].getPosition());
-                map.setZoom(9);
+                map.setZoom(12);
             });
 
         }
