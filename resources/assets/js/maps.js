@@ -69,27 +69,28 @@ function Control(controlDiv, map) {
 function setTruckInitData(truck,_data,map){
     var data =  _data.slice(0);
     for (let i = 0; i < data.length; i++) {
-        var dataLen =  data[i]['data'].length
+        var dataLen =  data[i]['data'].length;
         if( dataLen > 0){
 
             let len = truck.push({
                 "marker":new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]),
+                    position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck_lat"], data[i]['data'][dataLen - 1]["truck_lng"]),
                     icon:(function(){
-                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == '1'){
+                        if(data[i]['data'][dataLen - 1]["truck_active"].toString() == '1'){
                             return "/images/marker-green.png";
                         }else{
                             return "/images/marker-red.png";
                         }
-                    })()
+                    })(),
+                    title:data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name']
                 }),
                 "infowindow" : new google.maps.InfoWindow({
-                    content: JSON.stringify(data[i])
+                    content: "<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Driver's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Driver's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> "
                 }),
-                "number":data[i]["truck-number"],
-                "active":data[i]['data'][dataLen - 1]["truck-active"],
-                "lat":data[i]['data'][dataLen - 1]["truck-lat"],
-                "lng":data[i]['data'][dataLen - 1]["truck-lng"]
+                "id":data[i]["id"],
+                "active":data[i]['data'][dataLen - 1]["truck_active"],
+                "lat":data[i]['data'][dataLen - 1]["truck_lat"],
+                "lng":data[i]['data'][dataLen - 1]["truck_lng"]
             });
 
             truck[len - 1]["marker"].setMap(map);
@@ -120,20 +121,20 @@ function setTruckData(truck,_data,map){
         var dataLen =  data[i]['data'].length;
         for (let j = 0; j < truck.length; j++) {
 
-            if(truck[j]["number"] == data[i]["truck-number"]){
+            if(truck[j]["id"] == data[i]["id"]){
 
                 console.log("same");
-                if(!((data[i]['data'][dataLen - 1]["truck-lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["truck-lng"] == truck[j]["lng"]))){
+                if(!((data[i]['data'][dataLen - 1]["truck_lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["truck_lng"] == truck[j]["lng"]))){
                     console.log("data change");
-                    truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck-lat"], data[i]['data'][dataLen - 1]["truck-lng"]));
+                    truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck_lat"], data[i]['data'][dataLen - 1]["truck_lng"]));
                     truck[j]["marker"].setIcon((function(){
-                        if(data[i]['data'][dataLen - 1]["truck-active"].toString() == '1'){
+                        if(data[i]['data'][dataLen - 1]["truck_active"].toString() == '1'){
                             return "/images/marker-green.png";
                         }else{
                             return "/images/marker-red.png";
                         }
                     })());
-                    truck[j]["infowindow"].setContent(JSON.stringify(data[i]));
+                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Driver's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Driver's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> ");
 
                 }else{
                     console.log("no data change");
@@ -165,6 +166,7 @@ function initialize() {
         });
 
         jqxhr.done(function(_data){
+            console.dir(_data);
             setTruckInitData(truck,_data,map);
         });
 

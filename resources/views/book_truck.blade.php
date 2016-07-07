@@ -9,26 +9,26 @@
 
 @section('content')
 			<h1>Book a truck</h1>
-				<form action="#0" class="book-truck">
+				<form action="#0" class="book_truck">
 					<div class="form-group">
-						<label for="book-name">Name</label>
-						<input type="text" id="book-name">
+						<label for="book_name">Name</label>
+						<input type="text" id="book_name">
 					</div>
 					<div class="form-group">
-						<label for="book-date">Date</label>
-						<input type="date" id="book-date">
+						<label for="book_date">Date</label>
+						<input type="date" id="book_date">
 					</div>
 					<div class="form-group">
-						<label for="book-time">Time</label>
-						<input type="time" id="book-time">
+						<label for="book_time">Time</label>
+						<input type="time" id="book_time">
 					</div>
 					<div class="form-group">
-						<label for="book-from">From Location</label>
-						<input type="text" id="book-from">
+						<label for="book_from">From Location</label>
+						<input type="text" id="book_from">
 					</div>
 					<div class="form-group">
-						<label for="book-to">To Location</label>
-						<input type="text" id="book-to">
+						<label for="book_to">To Location</label>
+						<input type="text" id="book_to">
 					</div>
 					<div class="form-group">
 						<input type="submit" id="book-submit" value="Book Truck">

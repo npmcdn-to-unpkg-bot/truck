@@ -20,5 +20,5 @@ elixir(function(mix) {
    		use: [postStylus(['lost', 'autoprefixer','rucksack-css'])],
    		compress:true
 	});
-	mix.scripts([ 'libs/*.js','main.js'], 'public/js/main.js');
+	mix.scripts([ 'libs/jquery.js','maps.js'], 'public/js/maps.js');
 });

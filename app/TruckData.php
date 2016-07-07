@@ -12,14 +12,14 @@ class TruckData extends Model
      *
      * @var array
      */
-    protected $fillable = ['truck_id','truck-speed','truck-lat','truck-lng','truck-active'];
+    protected $fillable = ['truck_id','truck_speed','truck_lat','truck_lng','truck_active'];
 
     /**
 	 * Get the truck that owns the data.
 	 */
 	public function truck()
 	{
-	    return $this->belongsTo('App\Truck', 'truck-id');
+	    return $this->belongsTo('App\Truck', 'truck_id');
 	}
 
 }

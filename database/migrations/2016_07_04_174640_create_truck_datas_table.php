@@ -15,10 +15,10 @@ class CreateTruckDatasTable extends Migration
         Schema::create('truck_datas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('truck_id');
-            $table->integer('truck-speed');
-            $table->float('truck-lat');
-            $table->float('truck-lng');
-            $table->boolean('truck-active');
+            $table->float('truck_speed');
+            $table->float('truck_lat');
+            $table->float('truck_lng');
+            $table->boolean('truck_active');
             $table->timestamps();
         });
     }

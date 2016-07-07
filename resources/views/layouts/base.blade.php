@@ -6,8 +6,9 @@
 		<header class="main-header">
 			<nav class="main-nav">
 				<h1><a href="/">Home</a></h1>
-				<h1><a href="/truck/register">Register A Truck</a></h1>
 				<h1><a href="/truck/book">Book A Truck</a></h1>
+				<h1><a href="/truck/register">Register A Truck</a></h1>
+				<h1><a href="/truck/password/suspend">Add password/suspend</a></h1>
 				<h1><a href="/truck/maps">Maps</a></h1>
 				<h1><a href="/truck/maps/input">Maps Input</a></h1>
 			</nav>
