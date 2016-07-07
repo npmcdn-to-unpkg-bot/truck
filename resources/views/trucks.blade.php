@@ -11,7 +11,7 @@
     <h1>All trucks</h1>
     @if (count($trucks) > 0)
         @foreach ($trucks as $truck)
-            <div>
+            <div class="truck">
             	<ul>
             		<li>
             			<b>Driver's Number: </b>{{ $truck->id }} 
