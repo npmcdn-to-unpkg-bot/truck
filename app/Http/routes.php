@@ -128,6 +128,9 @@ Route::any('truck/maps/input/{truckNumber}/{truckSpeed}/{truckLat}/{truckLng}/{t
 	
 });
 
+Route::get('trucks', function () {
+    return "<h1 style='font-size:50px'>working on it </h1>";
+});
 
 Route::get('truck/maps/input', function () {
     return view('maps_input');
