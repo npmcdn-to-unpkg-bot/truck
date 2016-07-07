@@ -9,7 +9,7 @@
 
 @section('sidebar')
     @parent
-
+	<button onclick="window.location.reload()">Refresh</button>
 @endsection
 
 @section('content')
@@ -20,5 +20,4 @@
 
 @section('footer')
     @parent
-
 @endsection
