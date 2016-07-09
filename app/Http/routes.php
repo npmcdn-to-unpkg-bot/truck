@@ -67,7 +67,7 @@ Route::post('truck/register', function () {
 	]);
 
 
-    return view('register_truck');
+    return view('register_truck')->withSuccess('Everything went great');
 });
 
 Route::get('truck/book', function () {
@@ -104,7 +104,7 @@ Route::post('truck/password/suspend', function () {
     
     $truck->save();
 
-    return view('password_suspend');
+    return view('password_suspend')->withSuccess('Everything went great');
 });
 
 //truck/maps/input/3/12/12/12/0/hello
@@ -124,8 +124,6 @@ Route::any('truck/maps/input/{truckNumber}/{truckSpeed}/{truckLat}/{truckLng}/{t
         abort(403, 'Unauthorized action.');
     }
     
-
-	
 });
 
 Route::get('trucks', function () {
@@ -171,7 +169,7 @@ Route::post('truck/maps/input', function () {
 		'truck_active' => Request::input('truck_active')
 	]);
 
-    return view('maps_input');
+    return view('maps_input')->withSuccess('Everything went great');
 });
 
 Route::post('truck/maps/data', function () {

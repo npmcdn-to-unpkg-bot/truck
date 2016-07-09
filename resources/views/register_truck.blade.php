@@ -9,6 +9,9 @@
 
 @section('content')
     <h1>Register a truck</h1>
+    @if (!empty($success))
+    	<div class="msg_success bg-green">{{ $success }}</div>
+	@endif
     @if (count($errors) > 0)
     <div class="alert alert-danger">
         <ul>
@@ -22,7 +25,7 @@
 
 	<form action="/truck/register" class="register-truck" method="POST">
 		<div class="form-group">
-			<label for="first_name">First Name</label>
+			<label for="first_name">First Name <!-- <span class="inline-block px1 white bg-red">Fries</span> --></label>
 			<input type="text" name="first_name" id="first_name"  required="required">
 		</div>
 		<div class="form-group">

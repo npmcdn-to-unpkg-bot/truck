@@ -18,7 +18,9 @@
 	        </ul>
 	    </div>
 	@endif
-
+	@if (!empty($success))
+    	<div class="msg_success bg-green">{{ $success }}</div>
+	@endif
 	<form action="/truck/password/suspend" class="truck_password_suspend" method="POST">
 		<div class="form-group">
 			<label for="truck_number">Truck number</label>
@@ -31,10 +33,10 @@
 		<div class="form-group">
 		<label for="">Is the truck suspended</label>
 			<label for="truck_suspend_true"> 
-				<input type="radio" checked="checked" name="truck_suspend" value="1" id="truck_suspend_true" /> Yes
+				<input type="radio"  name="truck_suspend" value="1" id="truck_suspend_true" /> Yes
 			</label>
 			<label for="truck_suspend_false"> 
-				<input type="radio" name="truck_suspend" value="0" id="truck_suspend_false" /> No
+				<input type="radio" name="truck_suspend" value="0" id="truck_suspend_false" checked="checked"/> No
 			</label>
 		</div>
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
