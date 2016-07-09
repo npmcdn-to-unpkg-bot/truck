@@ -18,7 +18,9 @@
 	        </ul>
 	    </div>
 	@endif
-
+	@if (!empty($success))
+    	<div class="msg_success bg-green">{{ $success }}</div>
+	@endif
 	<form action="/truck/maps/input" class="truck_input" method="POST">
 		<div class="form-group">
 			<label for="truck_number">Truck number</label>
