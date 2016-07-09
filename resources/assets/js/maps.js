@@ -1,40 +1,22 @@
+import $ from './libs/jquery';
+window.jQuery = $;
+class App {
 
-var App = (function() {
-
-    function App() {
+    constructor() {
         console.log("app");
     }
 
-    App.prototype.loadData = function() {
+   loadData() {
 
-        var options = {
-            _token: $("#_token").val()
-        };
-
-        var jqxhr = $.ajax({
-            url: "/truck/maps/data",
-            method: "POST",
-            data: options,
-            dataType: "json"
-        });
-
-        jqxhr.done(this.Data);
-
-        jqxhr.fail(function(jqxhr,e) {
-            console.dir(e);
-        });
+       console.log("cool");
     }
 
-    App.prototype.Data = function(data) {
+    data(data) {
         console.dir(data);
-        this._data = data.slice(0);
-        return  this._data;
     }
     
 
-    return App;
-
-})();
+}
 
 
 
@@ -215,18 +197,20 @@ function initialize() {
     // Create a DIV to hold the control and call Control()
     var ControlDiv = document.createElement('div');
     var homeControl = new Control(ControlDiv, map);
+    let button = document.getElementById('refresh_map');
     ControlDiv.index = 1;
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ControlDiv);
 
-    
+    button.addEventListener('click',function(){
+        newData();
+    })
     
     loadInitData();
     
-
     window.setInterval(newData, 30000);
       
-
+   
 
 }
 

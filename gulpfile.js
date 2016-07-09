@@ -20,5 +20,6 @@ elixir(function(mix) {
    		use: [postStylus(['lost', 'autoprefixer','rucksack-css'])],
    		compress:true
 	});
-	mix.scripts([ 'libs/jquery.js','maps.js'], 'public/js/maps.js');
+	mix.rollup('maps.js', 'public/js/maps.js');
+	//mix.webpack([ 'libs/jquery.js','maps.js'], 'public/js/maps.js');
 });
