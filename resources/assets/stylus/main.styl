@@ -3,51 +3,76 @@
 
 body{
 	min-height:100vh;
-	background:whitesmoke;
+	//background:whitesmoke;
 	font-family: 'Roboto', sans-serif;
+	& *{
+		font-family: 'Roboto', sans-serif;
+	}
 }
 
 .main-container{
 	min-height:100vh;
 	width:100%;
+	background-image: linear-gradient(-90deg, #DBDBDB, #FFFFFF);
+	//border:2vh solid #fff;
+	padding:2vh;
+	//display:flex;
+	//flex-flow: row wrap;
+	//align-items: stretch;
+}
+
+.main-header, .main-content-wrapper, .main-footer {
+  flex: 1 100%;
 }
 
 .main-header{
 	width:100%;
-	background:#eee;
+	background:#444;
+	align-self: center;
+	margin-bottom:10px;
 }
 
+.msg_success{
+	width:200px;
+	padding:10px;
+}
 .main-nav{
 	padding:20px;
 	padding-bottom:10px;
+	display:flex;
+	flex-flow: row wrap;
 	& > h1{
 		display:inline-block;
 		margin:0px;
 		margin-bottom:10px;
 		font-weight:100;
+		font-size:1.5rem;
 		perspective:500px;
-		
+		max-width:100%;
+		flex:1 auto;
+		padding:1px;
 		&:hover a{
-			transform:rotateY(25deg) scale(.90);
+			transform: scale(.97);
 		}
 	}
 	& a{
 		display:block;
-		background:#111;
+		background:#888;
 		color:#fff;
 		padding:10px;
 		text-decoration:none;
 		transition:all 500ms ease;
 		box-shadow:0px 14px 2px -10px #333;
+		max-width:100%;
 		&:hover{
-			background:#333;
+			background:#555;
 		}
 	}
 }
 
 .main-content-wrapper{
 	width:100%;
-	background:#111;
+	background:#fff;
 	min-height:550px;
 	lost-utility: clearfix;
 	display:flex;
@@ -60,7 +85,7 @@ body{
 		color:#fff;
 	}
 	& h1{
-		color:#fff;
+		color:whitesmoke;
 	}
 }
 
@@ -90,7 +115,7 @@ body{
 }
 .main-content{
 	width:70%;
-	background:#111;
+	background:#444;
 	& > h1{
 		text-transform:capitalize;
 	}
@@ -98,7 +123,7 @@ body{
 .main-sidebar{
 	width:20%;
 	flex:1 1 20%;
-	background:#ccc;
+	background:#555;
 }
 
 #googleMap{
@@ -113,8 +138,14 @@ body{
 	& > *{
 		display:block;
 	}
-	& input[type="submit"]{
+	& > label{
+		margin-bottom:5px;
+	}
+	& input{
 		border:0px;
+	}
+	& input[type="submit"]{
+		
 		padding:10px;
 	}
 }
@@ -122,6 +153,7 @@ body{
 .main-footer{
 	padding:20px;
 	width:100%;
-	background:#222;
-	height:100px;
+	background:#444;
+	min-height:100px;
+	margin-top:10px;
 }
