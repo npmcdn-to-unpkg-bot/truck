@@ -75,9 +75,9 @@
 
 	            var len = truck.push({
 	                "marker":new google.maps.Marker({
-	                    position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck_lat"], data[i]['data'][dataLen - 1]["truck_lng"]),
+	                    position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["lat"], data[i]['data'][dataLen - 1]["lng"]),
 	                    icon:(function(){
-	                        if(data[i]['data'][dataLen - 1]["truck_active"].toString() == '1'){
+	                        if(data[i]['data'][dataLen - 1]["active"].toString() == '1'){
 	                            return "/images/marker-green.png";
 	                        }else{
 	                            return "/images/marker-red.png";
@@ -86,12 +86,12 @@
 	                    title:data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name']
 	                }),
 	                "infowindow" : new google.maps.InfoWindow({
-	                    content: "<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['truck_plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['truck_plate_state'] + " <br/> "
+	                    content: "<b>Driver's Name: </b>" + data[i]['driver']['surname'] + " " + data[i]['driver']['middle_name'] + " " + data[i]['driver']['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['driver']['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['driver']['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['plate_state'] + " <br/> "
 	                }),
 	                "id":data[i]["id"],
-	                "active":data[i]['data'][dataLen - 1]["truck_active"],
-	                "lat":data[i]['data'][dataLen - 1]["truck_lat"],
-	                "lng":data[i]['data'][dataLen - 1]["truck_lng"]
+	                "active":data[i]['data'][dataLen - 1]["active"],
+	                "lat":data[i]['data'][dataLen - 1]["lat"],
+	                "lng":data[i]['data'][dataLen - 1]["lng"]
 	            });
 
 	            truck[len - 1]["marker"].setMap(map);
@@ -127,17 +127,17 @@
 	            if(truck[j]["id"] == data[i]["id"]){
 
 	                console.log("same");
-	                if(!((data[i]['data'][dataLen - 1]["truck_lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["truck_lng"] == truck[j]["lng"]))){
+	                if(!((data[i]['data'][dataLen - 1]["lat"] == truck[j]["lat"]) && (data[i]['data'][dataLen - 1]["lng"] == truck[j]["lng"]))){
 	                    console.log("data change");
-	                    truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["truck_lat"], data[i]['data'][dataLen - 1]["truck_lng"]));
+	                    truck[j]["marker"].setPosition(new google.maps.LatLng(data[i]['data'][dataLen - 1]["lat"], data[i]['data'][dataLen - 1]["lng"]));
 	                    truck[j]["marker"].setIcon((function(){
-	                        if(data[i]['data'][dataLen - 1]["truck_active"].toString() == '1'){
+	                        if(data[i]['data'][dataLen - 1]["active"].toString() == '1'){
 	                            return "/images/marker-green.png";
 	                        }else{
 	                            return "/images/marker-red.png";
 	                        }
 	                    })());
-	                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['surname'] + " " + data[i]['middle_name'] + " " + data[i]['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["truck_speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['truck_plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['truck_plate_state'] + " <br/> ");
+	                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['driver']['surname'] + " " + data[i]['driver']['middle_name'] + " " + data[i]['driver']['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['driver']['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['driver']['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['plate_state'] + " <br/> ");
 
 	                }else{
 	                    console.log("no data change");
@@ -164,7 +164,7 @@
 	        };
 
 	        var jqxhr = $.ajax({
-	            url: "/truck/maps/data",
+	            url: "/admin/trucks",
 	            method: "POST",
 	            data: options,
 	            dataType: "json"
@@ -188,7 +188,7 @@
 	        };
 
 	        var jqxhr = $.ajax({
-	            url: "/truck/maps/data",
+	            url: "/admin/trucks",
 	            method: "POST",
 	            data: options,
 	            dataType: "json"

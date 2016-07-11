@@ -11,14 +11,14 @@ class Truck extends Model
      *
      * @var array
      */
-    protected $fillable = ['first_name', 'middle_name','surname','email', 'tel','truck_type','truck_manufacture_date','truck_model','truck_maker','truck_tons','truck_plate','truck_plate_state','truck_suspend'];
+    protected $fillable = ['driver_id','user_id','current_driver_id','manufacture_date','model','maker','tons','plate','plate_state','password'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['truck_password'];
+    protected $hidden = ['password'];
 
     /**
      * Get the data for the truck.
@@ -26,5 +26,23 @@ class Truck extends Model
     public function data()
     {
         return $this->hasMany('App\TruckData','truck_id');
+    }
+
+    /**
+     * get all drivers.
+     */
+    public function driver()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    public function getCurrentDriverAttribute()
+    {
+        return User::find($this->attributes['current_driver_id']);
+    }
+
+    public function getDriverAttribute()
+    {
+        return User::find($this->attributes['user_id']);
     }
 }

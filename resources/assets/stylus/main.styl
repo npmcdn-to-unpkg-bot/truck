@@ -27,7 +27,6 @@ body{
 
 .main-header{
 	width:100%;
-	background:#444;
 	align-self: center;
 	margin-bottom:10px;
 }
@@ -36,11 +35,18 @@ body{
 	width:200px;
 	padding:10px;
 }
+
+.logo{
+	background:#444;
+	padding:20px;
+	padding-bottom:0px;
+}
 .main-nav{
 	padding:20px;
 	padding-bottom:10px;
 	display:flex;
 	flex-flow: row wrap;
+	background:#444;
 	& > h1{
 		display:inline-block;
 		margin:0px;
@@ -70,6 +76,17 @@ body{
 	}
 }
 
+.info-bar{
+	background:#555;
+	padding:5px;
+	lost-utility: clearfix;
+	margin-bottom:2px;
+	& > a{
+		//box-shadow:5px 5px 5px #333;
+		text-decoration:none;
+	}
+}
+
 .main-content-wrapper{
 	width:100%;
 	background:#fff;
@@ -79,7 +96,7 @@ body{
 	& > *{
 		float:left;
 		padding:20px;
-		flex:12 1;
+		//flex:12 1;
 	}
 	& label{
 		color:#fff;
@@ -110,12 +127,14 @@ body{
 	}
 }
 
-.truck{
+.truck,.driver{
 	color:#fff;
 }
 .main-content{
-	width:70%;
+	width:80%;
 	background:#444;
+	flex:1 1 80%;
+	
 	& > h1{
 		text-transform:capitalize;
 	}

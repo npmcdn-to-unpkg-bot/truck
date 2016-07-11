@@ -9,7 +9,7 @@
 
 @section('content')
 			<h1>Book a truck</h1>
-				<form action="#0" class="book_truck">
+				<form action="/truck/book" class="book_truck">
 					<div class="form-group">
 						<label for="book_name">Name</label>
 						<input type="text" id="book_name">

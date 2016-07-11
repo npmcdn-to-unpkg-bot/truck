@@ -21,30 +21,30 @@
 	@if (!empty($success))
     	<div class="msg_success bg-green">{{ $success }}</div>
 	@endif
-	<form action="/truck/maps/input" class="truck_input" method="POST">
+	<form action="/admin/truck/input" class="admin_input" method="POST">
 		<div class="form-group">
-			<label for="truck_number">Truck number</label>
-			<input type="number" id="truck_number" name="truck_number" required="required">
+			<label for="id">Truck Id</label>
+			<input type="number" id="id" name="id" required="required" value{{old('id')}}>
 		</div>
 		<div class="form-group">
-			<label for="truck_speed">Truck Speed</label>
-			<input type="number" id="truck_speed" name="truck_speed" required="required">
+			<label for="speed">Truck Speed</label>
+			<input type="number" id="speed" name="speed" required="required" value{{old('speed')}}>
 		</div>
 		<div class="form-group">
-			<label for="truck_lat">Truck latitude</label>
-			<input type="text" id="truck_lat" name="truck_lat" required="required">
+			<label for="lat">Truck latitude</label>
+			<input type="text" id="lat" name="lat" required="required" value{{old('lat')}}>
 		</div>
 		<div class="form-group">
-			<label for="truck_lng">Truck longitude</label>
-			<input type="text" id="truck_lng" name="truck_lng" required="required">
+			<label for="lng">Truck longitude</label>
+			<input type="text" id="lng" name="lng" required="required" value{{old('lng')}}>
 		</div>
 		<div class="form-group">
 		<label for="">Is the truck active</label>
-			<label for="truck_active_true"> 
-				<input type="radio" checked="checked" name="truck_active" value="1" id="truck_active_true" /> Yes
+			<label for="active_true"> 
+				<input type="radio" checked="checked" name="active" value="1" id="active_true" /> Yes
 			</label>
-			<label for="truck_active_false"> 
-				<input type="radio" name="truck_active" value="0" id="truck_active_false" /> No
+			<label for="active_false"> 
+				<input type="radio" name="active" value="0" id="active_false" /> No
 			</label>
 		</div>
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -24,43 +24,22 @@
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
 	<form action="/truck/register" class="register-truck" method="POST">
-		<div class="form-group">
-			<label for="first_name">First Name <!-- <span class="inline-block px1 white bg-red">Fries</span> --></label>
-			<input type="text" name="first_name" id="first_name"  required="required">
-		</div>
-		<div class="form-group">
-			<label for="middle_name">Middle Name</label>
-			<input type="text" name="middle_name" id="middle_name" >
-		</div>
-		<div class="form-group">
-			<label for="surname">Surname</label>
-			<input type="text" name="surname" id="surname" required="required"> 
-		</div>
-		<div class="form-group">
-			<label for="tel">Phone Number</label>
-			<input type="tel" name="tel" id="tel"  required="required">
-		</div>
-
-		<div class="form-group">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" required="required">
-		</div>
 		
 		<div class="form-group">
-			<label for="truck_manufacture_date">Truck Manufacture Date</label>
-			<input type="text" id="truck_manufacture_date" name="truck_manufacture_date">
+			<label for="manufacture_date">Truck Manufacture Date</label>
+			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{old('manufacture_date')}}">
 		</div>
 		<div class="form-group">
-			<label for="truck_model">Truck Model</label>
-			<input type="text" id="truck_model" name="truck_model">
+			<label for="model">Truck Model</label>
+			<input type="text" id="model" name="model" required="required" value="{{old('model')}}">
 		</div>
 		<div class="form-group">
-			<label for="truck_maker">Truck Maker</label>
-			<input type="text" id="truck_maker" name="truck_maker">
+			<label for="maker">Truck Maker</label>
+			<input type="text" id="maker" name="maker" required="required" value="{{old('maker')}}">
 		</div>
 		<div class="form-group">
-			<label for="truck_tons">How much does the Truck weighs (tons)</label>
-			<select name="truck_tons" id="truck_tons" required="required">
+			<label for="tons">How much does the Truck weighs (tons)</label>
+			<select name="tons" id="tons" required="required">
 				<option value="">Select the weight of your truck</option>
 				@for ($i = 1; $i <= 30; $i++)
 	    			<option value="{{$i}}">{{$i}}</option>
@@ -68,12 +47,12 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="truck_plate">Truck Plate</label>
-			<input type="text" id="truck_plate" name="truck_plate" required="required">
+			<label for="plate">Truck Plate</label>
+			<input type="text" id="plate" name="plate" required="required" value="{{old('plate')}}">
 		</div>
 		<div class="form-group">
-			<label for="truck_plate_state">Truck Plate State</label>
-			<select name="truck_plate_state" id="truck_plate_state" required="required">
+			<label for="plate_state">Truck Plate State</label>
+			<select name="plate_state" id="plate_state" required="required">
 				<option value="">Select your State</option>
 				<option value="Abia">Abia</option>
 				<option value="Adamawa">Adamawa</option>

@@ -12,7 +12,7 @@ class TruckData extends Model
      *
      * @var array
      */
-    protected $fillable = ['truck_id','truck_speed','truck_lat','truck_lng','truck_active'];
+    protected $fillable = ['truck_id','speed','lat','lng','active'];
 
     /**
 	 * Get the truck that owns the data.

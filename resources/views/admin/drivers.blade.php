@@ -8,19 +8,19 @@
 @endsection
 
 @section('content')
-    <h1>All trucks</h1>
-    @if (count($trucks) > 0)
-        @foreach ($trucks as $truck)
-            <div class="truck">
+    <h1>All drivers</h1>
+    @if (count($drivers) > 0)
+        @foreach ($drivers as $driver)
+            <div class="driver">
             	<ul>
             		<li>
-            			<b>Driver's Number: </b>{{ $truck->id }} 
+            			<b>Driver's Number: </b>{{ $driver->id }} 
             		</li>
             		<li>
-            			<b>Driver's Name: </b>{{ $truck->surname }} {{ $truck->middle_name }} {{ $truck->first_name }}
+            			<b>Driver's Name: </b>{{ $driver->surname }} {{ $driver->middle_name }} {{ $driver->first_name }}
             		</li>
             		<li>
-            			<b>Driver's Plate: </b>{{ $truck->truck_plate }}
+            			<b>Driver's Phone number: </b>{{ $driver->tel }}
             		</li>
             	</ul>
             	
