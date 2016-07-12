@@ -60,7 +60,8 @@ class DriverController extends Controller
 	        'password'=> bcrypt($request->input('password')),
 	        'tel' => '+234'.ltrim($request->input('tel'), '0')
 	   ]);
-	   $user->roles()->attach(2);
+	   $role = \App\Role::where('name', '=', 'admin')->firstOrFail()->id;
+	   $user->roles()->attach($role);
 	   Auth::login($user);
     	return view('truck.register')->withSuccess('Your Account was registered successfully');
     }
