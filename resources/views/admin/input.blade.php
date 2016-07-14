@@ -6,9 +6,8 @@
     @parent
 
 @endsection
-
+@section('page-title','Input truck info')
 @section('content')
-	<h1>Input truck info</h1>
 	@if (count($errors) > 0)
 	    <div class="alert alert-danger">
 	        <ul>

@@ -6,7 +6,7 @@
     @parent
 
 @endsection
-@section('page-title', 'Register a truck')
+@section('page-title','Update a truck')
 @section('content')
     @if (!empty($success))
     	<div class="msg_success bg-green">{{ $success }}</div>
@@ -22,36 +22,40 @@
 @endif
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
-	<form action="/truck/register" class="register-truck" method="POST">
-		
+	<form action="/admin/truck" class="register-truck" method="POST">
+		<div class="form-group">
+			<label for="id">Truck Id</label>
+			<input type="text" id="id" name="id" required="required" value="{{$truck->id}}" disabled="">
+		</div>
 		<div class="form-group">
 			<label for="manufacture_date">Truck Manufacture Date</label>
-			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{old('manufacture_date')}}">
+			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{$truck->manufacture_date}}" disabled="">
 		</div>
 		<div class="form-group">
 			<label for="model">Truck Model</label>
-			<input type="text" id="model" name="model" required="required" value="{{old('model')}}">
+			<input type="text" id="model" name="model" required="required" value="{{$truck->model}}" disabled="">
 		</div>
 		<div class="form-group">
 			<label for="maker">Truck Maker</label>
-			<input type="text" id="maker" name="maker" required="required" value="{{old('maker')}}">
+			<input type="text" id="maker" name="maker" required="required" value="{{$truck->maker}}" disabled="">
 		</div>
 		<div class="form-group">
 			<label for="tons">How much does the Truck weighs (tons)</label>
-			<select name="tons" id="tons" required="required">
+			<input type="text" id="tons" name="tons" required="required" value="{{$truck->tons}}" disabled="">
+			<!-- <select name="tons" id="tons" required="required">
 				<option value="">Select the weight of your truck</option>
 				@for ($i = 1; $i <= 30; $i++)
-	    			<option value="{{$i}}">{{$i}}</option>
+				    			<option value="{{$i}}">{{$i}}</option>
 				@endfor
-			</select>
+			</select> -->
 		</div>
 		<div class="form-group">
 			<label for="plate">Truck Plate</label>
-			<input type="text" id="plate" name="plate" required="required" value="{{old('plate')}}">
+			<input type="text" id="plate" name="plate" required="required" value="{{$truck->plate}}">
 		</div>
 		<div class="form-group">
 			<label for="plate_state">Truck Plate State</label>
-			<select name="plate_state" id="plate_state" required="required">
+			<select name="plate_state" id="plate_state" required="required" >
 				<option value="">Select your State</option>
 				<option value="Abia">Abia</option>
 				<option value="Adamawa">Adamawa</option>
@@ -94,6 +98,7 @@
 
 		</div>
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" id="_token">
+		{{ method_field('UPDATE') }}
 		<div class="form-group">
 			<input type="submit" value="Submit">
 		</div>

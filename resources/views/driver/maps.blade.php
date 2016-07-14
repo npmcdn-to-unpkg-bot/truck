@@ -11,9 +11,8 @@
     @parent
 	<div id="refresh_map" class="btn btn-primary bg-darken-4 not-rounded">Refresh</div>
 @endsection
-
+@section('page-title','Maps of truck')
 @section('content')
-	<h1>Maps of truck</h1>
 	<div id="googleMap"></div>
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" id="_token">
 @endsection

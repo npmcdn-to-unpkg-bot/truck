@@ -6,9 +6,8 @@
     @parent
 
 @endsection
-
+@section('page-title','Register a User')
 @section('content')
-    <h1>Register a User</h1>
     @if (!empty($success))
     	<div class="msg_success bg-green">{{ $success }}</div>
 	@endif

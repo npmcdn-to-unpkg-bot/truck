@@ -42,13 +42,20 @@
 
 		</header>
 		<section class="main-content-wrapper">
-			<aside class="main-sidebar">
-				<h1>Sidebar</h1>
-				@yield('sidebar')
-			</aside>
-			<article class="main-content">
-			 @yield('content')
-			</article>
+			<header class="content-header">
+				<h1 class="page-title m0">@yield('page-title')</h1>
+				@yield('content-header')
+			</header>
+			<section class="content-wrapper">
+				<aside class="main-sidebar">
+					<h1>Sidebar</h1>
+					@yield('sidebar')
+				</aside>
+				<article class="main-content">
+				 @yield('content')
+				</article>
+			</section>
+				
 
 		</section>
 		<footer class="main-footer">

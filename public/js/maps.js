@@ -164,7 +164,7 @@
 	        };
 
 	        var jqxhr = $.ajax({
-	            url: "/admin/trucks",
+	            url: "/trucks",
 	            method: "POST",
 	            data: options,
 	            dataType: "json"
@@ -188,7 +188,7 @@
 	        };
 
 	        var jqxhr = $.ajax({
-	            url: "/admin/trucks",
+	            url: "/trucks",
 	            method: "POST",
 	            data: options,
 	            dataType: "json"

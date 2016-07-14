@@ -6,26 +6,23 @@
     @parent
 
 @endsection
-
+@section('page-title','All trucks')
 @section('content')
-    <h1>All trucks</h1>
     @if (count($trucks) > 0)
-        @foreach ($trucks as $truck)
-            <div class="truck">
-            	<ul>
-            		<li>
-            			<b>Driver's Id: </b>{{ $truck->id }} 
-            		</li>
-            		<li>
-            			<b>Driver's Name: </b>{{ $truck->user['full_name'] }}
-            		</li>
-            		<li>
-            			<b>Truck Plate: </b>{{ $truck->plate }}
-            		</li>
-            	</ul>
-            	
-            </div>
-        @endforeach
+        <table class="table-light overflow-hidden bg-lighten-4 white">
+            <thead>
+              <tr>
+                <th>Driver's Id</th> <th>Driver's Name</th> <th>Driver's Phone number</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($trucks as $truck)
+                  <tr> <td>{{ $truck->id }}</td> <td>{{ $truck->full_name}}</td> <td>{{ $truck->plate }}</td> </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <h1>No truck registered yet</h1>
     @endif
 @endsection
 

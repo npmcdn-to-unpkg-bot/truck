@@ -26,6 +26,22 @@ Route::get('truck/book', 'TruckController@bookTruck')->name('truck.book');
 Route::post('truck/book', 'TruckController@createBook');
 Route::get('signout', 'HomeController@signout');
 
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::post('/trucks', function () {
+        if(Auth::user()->isAdmin()){
+            $trucks = App\Truck::where('user_id', Auth::user()->id)->load(['data','driver'])->get()->toJson();
+        }else{
+
+            $trucks = App\Truck::with(['data','driver'])->get()->toJson();
+        }
+          
+
+        return  $trucks;
+    });
+
+});
+
 Route::group(['middleware' => ['auth','role:driver']], function () {
     
     Route::get('truck/register', 'TruckController@showRegister')->name('truck.register');
@@ -43,7 +59,10 @@ Route::group(['middleware' => ['auth','role:admin']], function () {
     Route::get('admin/truck/input', 'AdminController@showInput')->name('admin.truck.input');
     Route::post('admin/truck/input', 'AdminController@truckInput');
     Route::get('admin/trucks', 'AdminController@showTrucks')->name('admin.trucks');
-
+    Route::get('admin/truck/{id}/edit', 'AdminController@showTruck')->name('admin.truck.show');
+    Route::get('admin/driver/{id}/edit', 'AdminController@showDriver')->name('admin.driver.show');
+    Route::put('admin/truck/{id}', 'AdminController@updateTruck')->name('admin.truck.update');
+    Route::put('admin/driver/{id}', 'AdminController@updateDriver')->name('admin.driver.update');
         //truck/maps/input/3/12/12/12/0/hello
     /*Route::any('truck/maps/input/{truckNumber}/{truckSpeed}/{truckLat}/{truckLng}/{truckActive}/{password}', ['as' => 'truck.data',function($truckNumber,$truckSpeed,$truckLat,$truckLng,$truckActive,$password){
 
@@ -63,11 +82,7 @@ Route::group(['middleware' => ['auth','role:admin']], function () {
         
     }]);*/
 
-    Route::post('admin/trucks', function () {
-        $trucks = App\Truck::with(['data','driver'])->get();
-
-        return App\Truck::with(['data','driver'])->get()->toJson();
-    });
+    
 
 
 });

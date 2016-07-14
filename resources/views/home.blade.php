@@ -2,13 +2,14 @@
 
 @section('title', 'Home')
 
+@section('page-title', 'Home')
 @section('sidebar')
     @parent
 
 @endsection
 
 @section('content')
-    <h1>Home</h1>
+   
 				
 @endsection
 

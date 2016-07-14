@@ -6,9 +6,8 @@
     @parent
 
 @endsection
-
+@section('page-title', 'Book a truck')
 @section('content')
-			<h1>Book a truck</h1>
 				<form action="/truck/book" class="book_truck">
 					<div class="form-group">
 						<label for="book_name">Name</label>

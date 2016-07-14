@@ -41,6 +41,11 @@ class Truck extends Model
         return User::find($this->attributes['current_driver_id']);
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->driver->surname . " " . $this->driver->middle_name . " " .$this->driver->first_name;
+    }
+
     public function getDriverAttribute()
     {
         return User::find($this->attributes['user_id']);

@@ -61,11 +61,8 @@ class TruckController extends Controller
     }
     
     public function createBook()
-    {
+    {	
     	return view('truck.book');
     }
-
-    
-
     
 }

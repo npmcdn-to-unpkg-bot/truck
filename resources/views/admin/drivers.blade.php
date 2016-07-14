@@ -6,26 +6,21 @@
     @parent
 
 @endsection
-
+@section('page-title','All drivers')
 @section('content')
-    <h1>All drivers</h1>
     @if (count($drivers) > 0)
-        @foreach ($drivers as $driver)
-            <div class="driver">
-            	<ul>
-            		<li>
-            			<b>Driver's Number: </b>{{ $driver->id }} 
-            		</li>
-            		<li>
-            			<b>Driver's Name: </b>{{ $driver->surname }} {{ $driver->middle_name }} {{ $driver->first_name }}
-            		</li>
-            		<li>
-            			<b>Driver's Phone number: </b>{{ $driver->tel }}
-            		</li>
-            	</ul>
-            	
-            </div>
-        @endforeach
+        <table class="table-light overflow-hidden bg-lighten-4 white">
+            <thead>
+              <tr>
+                <th>Driver's Id</th> <th>Driver's Name</th> <th>Driver's Phone number</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($drivers as $driver)
+                  <tr> <td>{{ $driver->id }}</td> <td>{{ $driver->surname }} {{ $driver->middle_name }} {{ $driver->first_name }}</td> <td>{{ $driver->tel }}</td> </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
 @endsection
 

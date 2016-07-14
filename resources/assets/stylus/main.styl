@@ -15,7 +15,7 @@ body{
 	width:100%;
 	background-image: linear-gradient(-90deg, #DBDBDB, #FFFFFF);
 	//border:2vh solid #fff;
-	padding:2vh;
+	/*padding:2vh;*/
 	//display:flex;
 	//flex-flow: row wrap;
 	//align-items: stretch;
@@ -29,6 +29,7 @@ body{
 	width:100%;
 	align-self: center;
 	margin-bottom:10px;
+	background:#444;
 }
 
 .msg_success{
@@ -47,16 +48,19 @@ body{
 	display:flex;
 	flex-flow: row wrap;
 	background:#444;
+	width:80%;
+	margin:0 auto;
 	& > h1{
 		display:inline-block;
 		margin:0px;
 		margin-bottom:10px;
-		font-weight:100;
+		
 		font-size:1.5rem;
 		perspective:500px;
 		max-width:100%;
 		flex:1 auto;
 		padding:1px;
+		
 		&:hover a{
 			transform: scale(.97);
 		}
@@ -70,6 +74,8 @@ body{
 		transition:all 500ms ease;
 		box-shadow:0px 14px 2px -10px #333;
 		max-width:100%;
+		font-family: 'Raleway', sans-serif;
+		font-weight:100;
 		&:hover{
 			background:#555;
 		}
@@ -87,12 +93,26 @@ body{
 	}
 }
 
-.main-content-wrapper{
+.content-header{
+	background:#333;
+	padding:2rem;
+	width:100%;
+	text-align:left;
+	color:whitesmoke;
+}
+.page-title{
+	font-size:3rem;
+	font-weight:200;
+	text-transform:capitalize;
+}
+.content-wrapper{
 	width:100%;
 	background:#fff;
-	min-height:550px;
+	min-height:61vh;
 	lost-utility: clearfix;
 	display:flex;
+	flex-flow: row wrap;
+	
 	& > *{
 		float:left;
 		padding:20px;
@@ -143,6 +163,7 @@ body{
 	width:20%;
 	flex:1 1 20%;
 	background:#555;
+	display:none;
 }
 
 #googleMap{
@@ -162,6 +183,7 @@ body{
 	}
 	& input{
 		border:0px;
+		//width:50%;
 	}
 	& input[type="submit"]{
 		

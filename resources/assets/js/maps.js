@@ -141,7 +141,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/admin/trucks",
+            url: "/trucks",
             method: "POST",
             data: options,
             dataType: "json"
@@ -165,7 +165,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/admin/trucks",
+            url: "/trucks",
             method: "POST",
             data: options,
             dataType: "json"
