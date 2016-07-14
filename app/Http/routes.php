@@ -30,10 +30,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/trucks', function () {
         if(Auth::user()->isAdmin()){
-            $trucks = App\Truck::where('user_id', Auth::user()->id)->load(['data','driver'])->get()->toJson();
+           $trucks = App\Truck::with(['data','driver'])->get()->toJson();
         }else{
 
-            $trucks = App\Truck::with(['data','driver'])->get()->toJson();
+             $trucks = App\Truck::where('user_id', Auth::user()->id)->get();
+              $trucks =  $trucks->load(['data','driver'])->toJson();
         }
           
 
