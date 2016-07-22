@@ -11,84 +11,93 @@
 |
 */
 
-Route::group(['middleware' => ['guest']], function () {
 
-    
-    Route::get('signin', 'HomeController@showSignin')->name('signin');
-    Route::post('signin', 'HomeController@signin');
-    Route::get('driver/register', 'DriverController@showRegister')->name('driver.register');
-    Route::post('driver/register', 'DriverController@createDriver');
-
-});
-
-Route::get('/', 'HomeController@showHome')->name('home');
-Route::get('truck/book', 'TruckController@bookTruck')->name('truck.book');
-Route::post('truck/book', 'TruckController@createBook');
+Route::get('/', 'HomeController@home')->name('home');
+Route::get('signin', 'HomeController@showSignin')->name('signin');
+Route::post('signin', 'HomeController@signin');
 Route::get('signout', 'HomeController@signout');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::get('register', 'RegisterController@create')->name('register.create');
+Route::post('register', 'RegisterController@store')->name('register.store');
+Route::get('maps', 'HomeController@showMaps')->name('maps.show');
 
-    Route::post('/trucks', function () {
-        if(Auth::user()->isAdmin()){
-           $trucks = App\Truck::with(['data','driver'])->get()->toJson();
-        }else{
-
-             $trucks = App\Truck::where('user_id', Auth::user()->id)->get();
-              $trucks =  $trucks->load(['data','driver'])->toJson();
-        }
-          
-
-        return  $trucks;
-    });
-
-});
-
-Route::group(['middleware' => ['auth','role:driver']], function () {
-    
-    Route::get('truck/register', 'TruckController@showRegister')->name('truck.register');
-    Route::post('truck/register', 'TruckController@createTruck');
-    Route::get('driver/trucks', 'DriverController@showTrucks')->name('driver.trucks');
-    Route::get('driver/maps', 'DriverController@showMaps')->name('driver.maps');
-});
+Route::get('driver/{id}', 'DriverController@show')->name('driver.show')->where('id', '[0-9]+');
+Route::get('driver/{id}/edit', 'DriverController@edit')->name('driver.edit');
+Route::put('driver/{id}', 'DriverController@update')->name('driver.update');
+Route::delete('driver/{id}', 'DriverController@destroy')->name('driver.destroy');
+Route::get('drivers', 'DriverController@showAllDrivers')->name('drivers.show');
 
 
-Route::group(['middleware' => ['auth','role:admin']], function () {
-    Route::get('admin/register/user', 'AdminController@showRegister')->name('admin.register');
-    Route::post('admin/register/user', 'AdminController@createUser');
-    Route::get('admin/drivers', 'AdminController@showDrivers')->name('admin.drivers');
-    Route::get('admin/maps', 'AdminController@showMaps')->name('admin.maps');
-    Route::get('admin/truck/input', 'AdminController@showInput')->name('admin.truck.input');
-    Route::post('admin/truck/input', 'AdminController@truckInput');
-    Route::get('admin/trucks', 'AdminController@showTrucks')->name('admin.trucks');
-    Route::get('admin/truck/{id}/edit', 'AdminController@showTruck')->name('admin.truck.show');
-    Route::get('admin/driver/{id}/edit', 'AdminController@showDriver')->name('admin.driver.show');
-    Route::put('admin/truck/{id}', 'AdminController@updateTruck')->name('admin.truck.update');
-    Route::put('admin/driver/{id}', 'AdminController@updateDriver')->name('admin.driver.update');
-        //truck/maps/input/3/12/12/12/0/hello
-    /*Route::any('truck/maps/input/{truckNumber}/{truckSpeed}/{truckLat}/{truckLng}/{truckActive}/{password}', ['as' => 'truck.data',function($truckNumber,$truckSpeed,$truckLat,$truckLng,$truckActive,$password){
 
-        $truck = App\Truck::findOrFail($truckNumber);
-        if($truck->truck_password == $password){
-            App\TruckData::firstOrCreate([
-                'truck_id' => $truckNumber, 
-                'truck_speed' => $truckSpeed, 
-                'truck_lat' => $truckLat, 
-                'truck_lng' => $truckLng, 
-                'truck_active' => $truckActive
-            ]);
-            return "data inserted successfully";
-        }else{
+Route::get('truck/input', 'TruckController@showInput')->name('truck.input.show');
+Route::post('truck/input', 'TruckController@storeInput')->name('truck.input.create');
+
+Route::get('truck/register', 'TruckController@create')->name('truck.create');
+Route::post('truck/register', 'TruckController@store')->name('truck.store');
+
+Route::get('truck/book', 'BookTruckController@index')->name('truck.book');
+Route::get('truck/book/{id}', 'BookTruckController@show')->name('truck.book.show');
+Route::post('truck/book', 'BookTruckController@store');
+Route::post('book/maps', 'BookTruckController@maps');
+//
+// Route::get('app/trucks', function(){
+//
+//     $trucks = \App\Truck::with(['data'])->get();
+//     // $trucks = $truck::with(['data' => function ($query) {
+//     //     $query->where('active', '=', 1);
+//     //
+//     // }])->get();
+//
+//     $trucks = $trucks->filter(function ($value, $key) {
+//         return !!$value->data()->get()->last()->active;
+//     });
+//
+//     return  response()->json($trucks);
+// });
+
+Route::get('trucks', 'TruckController@showAllTrucks')->name('trucks.show');
+Route::post('trucks', 'TruckController@allTrucks')->name('trucks');
+
+Route::get('truck/{id}', 'TruckController@show')->name('truck.show')->where('id', '[0-9]+');
+Route::get('truck/{id}/edit', 'TruckController@edit')->name('truck.edit');
+Route::put('truck/{id}', 'TruckController@update')->name('truck.update');
+Route::delete('truck/{id}', 'TruckController@destroy')->name('truck.destroy');
+
+
+
+// Route::group(['middleware' => ['auth','role:admin']], function () {
+//
+//         //truck/maps/input/3/12/12/12/0/hello
+    Route::any('input', ['as' => 'truck.data',function(){
+
+        $validator = Validator::make(request()->all(), [
+	        'id' => 'required|integer|exists:trucks,id' ,
+	        'speed' => 'required|numeric',
+	        'lat' => 'required|numeric',
+	        'lng' => 'required|numeric',
+	        'active' => 'required|boolean',
+            'password' =>'required'
+	    ]);
+
+	    if ($validator->fails()) {
+	        abort(403, 'Unauthorized action.');
+	    }
+
+        $truck = \App\Truck::findOrFail(request()->input('id'));
+
+        if(!($truck->password === request()->input('password'))){
             abort(403, 'Unauthorized action.');
         }
-        
-    }]);*/
 
-    
+        App\TruckData::create([
+            'truck_id' => request()->input('id'),
+            'speed' => request()->input('speed'),
+            'lat' => request()->input('lat'),
+            'lng' => request()->input('lng'),
+            'active' => request()->input('active')
+        ]);
 
-
-});
-
-
-
-
-
+        return "data inserted successfully";
+    }]);
+//
+// });

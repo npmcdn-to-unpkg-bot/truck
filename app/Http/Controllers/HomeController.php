@@ -11,13 +11,17 @@ class HomeController extends Controller
 {
 	public function __construct()
 	{
-		
+
 		$this->middleware('auth', ['only' => [
 	        'signout',
         ]]);
+
+		$this->middleware('guest', ['only' => [
+	        'signin','showSignin'
+        ]]);
 	}
 
-    public function showHome()
+    public function home()
     {
     	return view('home');
     }
@@ -40,7 +44,7 @@ class HomeController extends Controller
 	        'email' => 'required|email|exists:users,email'
 
 	    ],$messages);
-	    
+
 	    if ($validator->fails()) {
 	        return redirect('signin')
 	                    ->withErrors($validator)
@@ -48,7 +52,7 @@ class HomeController extends Controller
 	    }
 
 	    if (Auth::attempt(['email' => $request->input('email'), 'password' =>$request->input('password')])) {
-    		
+
     		return redirect('/');
 		}
 	    return view('signin');
@@ -58,4 +62,10 @@ class HomeController extends Controller
     	Auth::logout();
     	return  redirect('/');
     }
+
+	public function showMaps()
+    {
+    	return view('maps');
+    }
+
 }

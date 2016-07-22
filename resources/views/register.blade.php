@@ -8,30 +8,23 @@
 @endsection
 @section('page-title','Register a User')
 @section('content')
-    @if (!empty($success))
-    	<div class="msg_success bg-green">{{ $success }}</div>
-	@endif
-    @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @include('partials._error')
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
-	<form action="/admin/register/user" class="register_driver" method="POST">
-		<div class="form-group">
-			<label for="user_role">user role</label>
-			<select name="user_role" id="user_role" required="required">
-				<option value="">Select the role of the user</option>
-				@foreach(\App\Role::all() as $role )
-					<option value="{{$role->name}}">{{$role->name}}</option>
-				@endforeach
-			</select>
-		</div>
+	<form action="{{route('register.store')}}" class="register_driver" method="POST">
+        @if(Auth::check())
+        @if(Auth::user()->isAdmin())
+    		<div class="form-group">
+    			<label for="user_role">user role</label>
+    			<select name="user_role" id="user_role" required="required">
+    				<option value="">Select the role of the user</option>
+    				@foreach(\App\Role::all() as $role )
+    					<option value="{{$role->name}}">{{$role->name}}</option>
+    				@endforeach
+    			</select>
+    		</div>
+        @endif
+        @endif
 		<div class="form-group">
 			<label for="first_name">First Name <!-- <span class="inline-block px1 white bg-red">Fries</span> --></label>
 			<input type="text" name="first_name" id="first_name"  required="required"  value="{{old('first_name')}}">
@@ -42,7 +35,7 @@
 		</div>
 		<div class="form-group">
 			<label for="surname">Surname</label>
-			<input type="text" name="surname" id="surname" required="required" value="{{old('surname')}}"> 
+			<input type="text" name="surname" id="surname" required="required" value="{{old('surname')}}">
 		</div>
 		<div class="form-group">
 			<label for="tel">Phone Number</label>
@@ -53,7 +46,7 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email" required="required" value="{{old('email')}}">
 		</div>
-		
+
 		<div class="form-group">
 			<label for="password">Password</label>
 			<input type="password" id="password" name="password"  required="required">

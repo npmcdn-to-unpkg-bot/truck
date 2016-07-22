@@ -6,17 +6,32 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Validator;
+use App\TruckData;
+use App\Truck;
 
 class TruckController extends Controller
 {
-    
+    public function __construct()
+	{
+        $this->middleware('auth', ['only' => [
+	        'allTrucks','showAllTrucks'
+        ]]);
 
-    public function showRegister()
+		$this->middleware('role:driver', ['only' => [
+	        'create','store'
+        ]]);
+
+        $this->middleware('role:admin', ['only' => [
+	        'showInput','storeInput','show','edit','update','destroy'
+        ]]);
+	}
+
+    public function create()
     {
     	return view('truck.register');
     }
 
-    public function createTruck(Request $request)
+    public function store(Request $request)
     {
     	$messages = [
 	    	'tons.required' => 'We need to know the weight of the truck!',
@@ -33,14 +48,14 @@ class TruckController extends Controller
 	        'plate_state' => 'required'
 
 	    ],$messages);
-		
+
 	    if ($validator->fails()) {
 	        return redirect('truck/register')
 	                    ->withErrors($validator)
 	                    ->withInput();
 	    }
-	   
-	    \App\Truck::create([
+
+	    Truck::create([
 	    	'user_id' => $request->user()->id,
             'current_driver_id' =>$request->user()->id,
 	    	'manufacture_date'=> $request->input('manufacture_date'),
@@ -55,14 +70,97 @@ class TruckController extends Controller
 	    return view('truck.register')->withSuccess('Your truck was added');
     }
 
-    public function bookTruck()
+    public function show($id)
     {
-    	return view('truck.book');
+        $truck = Truck::findOrFail($id);
+    	return view('truck.show')->with('truck',$truck);
     }
-    
-    public function createBook()
-    {	
-    	return view('truck.book');
+
+    public function edit()
+    {
+
     }
-    
+
+    public function update()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
+
+
+    public function showAllTrucks(Truck $truck,Request $request)
+    {
+        if($request->user()->isAdmin()){
+           $trucks = $truck->with(['data','driver'])->get();
+           return view('truck.trucks',[
+   	           'trucks' => $trucks,
+   	        ]);
+        }
+
+        $trucks = Truck::where('user_id', $request->user()->id)->get();
+
+	    return view('truck.trucks',[
+	        'trucks' => $trucks,
+	    ]);
+    }
+
+    public function allTrucks(Request $request)
+    {
+        if($request->user()->isAdmin()){
+           $trucks = Truck::with(['data','driver'])->get()->toJson();
+           return  $trucks;
+        }
+
+        $trucks = Truck::where('user_id', $request->user()->id)->get();
+        $trucks =  $trucks->load(['data','driver'])->toJson();
+
+
+
+        return  $trucks;
+    }
+
+    public function showInput()
+    {
+    	return view('truck.input');
+    }
+
+    public function storeInput(Request $request)
+    {
+    	$messages = [
+			'id.required' => 'We need to know the id of the truck!',
+			'id.exists' => 'the truck does not exist in the database',
+	    	'speed.required' => 'We need to know the speed of the truck!',
+	    	'lat.required' => 'We need to know the latitude of the truck!',
+	    	'lng.required' => 'We need to know the longitude of the truck!',
+	        'active.required' => 'We need to know if the truck is active or not!'
+		];
+
+		$validator = Validator::make($request->all(), [
+	        'id' => 'required|integer|exists:trucks,id' ,
+	        'speed' => 'required|numeric',
+	        'lat' => 'required|numeric',
+	        'lng' => 'required|numeric',
+	        'active' => 'required|boolean'
+	    ],$messages);
+
+	    if ($validator->fails()) {
+	        return redirect('truck/input')
+	                    ->withErrors($validator)
+	                    ->withInput();
+	    }
+
+		TruckData::create([
+			'truck_id' => $request->input('id'),
+			'speed' => $request->input('speed'),
+			'lat' => $request->input('lat'),
+			'lng' => $request->input('lng'),
+			'active' => $request->input('active')
+		]);
+
+	    return view('truck.input')->withSuccess('Everything went great');
+    }
 }

@@ -22,26 +22,26 @@
 @endif
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
-	<form action="/admin/truck" class="register-truck" method="POST">
+	<form action="/admin/truck/{{$truck->id}}/edit" class="register-truck" method="POST">
 		<div class="form-group">
 			<label for="id">Truck Id</label>
-			<input type="text" id="id" name="id" required="required" value="{{$truck->id}}" disabled="">
+			<input type="text" id="id" name="id" required="required" value="{{$truck->id}}" readonly="" class="field is-disabled">
 		</div>
 		<div class="form-group">
 			<label for="manufacture_date">Truck Manufacture Date</label>
-			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{$truck->manufacture_date}}" disabled="">
+			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{$truck->manufacture_date}}" readonly="">
 		</div>
 		<div class="form-group">
 			<label for="model">Truck Model</label>
-			<input type="text" id="model" name="model" required="required" value="{{$truck->model}}" disabled="">
+			<input type="text" id="model" name="model" required="required" value="{{$truck->model}}" readonly="">
 		</div>
 		<div class="form-group">
 			<label for="maker">Truck Maker</label>
-			<input type="text" id="maker" name="maker" required="required" value="{{$truck->maker}}" disabled="">
+			<input type="text" id="maker" name="maker" required="required" value="{{$truck->maker}}" readonly="">
 		</div>
 		<div class="form-group">
 			<label for="tons">How much does the Truck weighs (tons)</label>
-			<input type="text" id="tons" name="tons" required="required" value="{{$truck->tons}}" disabled="">
+			<input type="text" id="tons" name="tons" required="required" value="{{$truck->tons}}" readonly="">
 			<!-- <select name="tons" id="tons" required="required">
 				<option value="">Select the weight of your truck</option>
 				@for ($i = 1; $i <= 30; $i++)
@@ -97,13 +97,27 @@
 			</select>
 
 		</div>
+		<div class="form-group">
+			<label for="password">Truck password</label>
+			<input type="text" id="password" name="password" value="{{$truck->password}}">
+		</div>
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" id="_token">
-		{{ method_field('UPDATE') }}
+		{{ method_field('PUT') }}
 		<div class="form-group">
 			<input type="submit" value="Submit">
 		</div>
 	</form>
 @endsection
+
+@push('scripts')
+	<script>
+		function SelectElement(valueToSelect){    
+		    var element = document.getElementById('plate_state');
+		    element.value = valueToSelect;
+		}
+		SelectElement("{{$truck->plate_state}}");
+	</script>
+@endpush
 
 @section('footer')
     @parent

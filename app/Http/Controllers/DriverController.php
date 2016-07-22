@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Truck;
 use Validator,Auth;
 use App\User;
 
@@ -12,20 +13,21 @@ class DriverController extends Controller
 {
 	public function __construct()
 	{
-		/*$this->middleware('auth:admin', ['only' => [
-	        'fooAction',
-        ]]);*/
+		$this->middleware('role:admin', ['only' => [
+	        'showAllDrivers'
+        ]]);
 	}
 
-    public function showRegister()
-    {
-    	return view('driver.register');
-    }
-
-    public function showMaps()
-    {
-    	return view('driver.maps');
-    }
+	public function showAllDrivers()
+	{
+		$drivers =  User::with('roles')->get();
+    	$drivers = $drivers->filter(function ($value, $key) {
+    		return $value->isDriver();
+		});
+    	return view('driver.drivers',[
+    		'drivers' => $drivers
+    	]);
+	}
 
     public function createDriver(Request $request, User $user)
     {
@@ -46,7 +48,7 @@ class DriverController extends Controller
 	        'tel' => 'required|numeric'
 
 	    ],$messages);
-		
+
 	    if ($validator->fails()) {
 	        return redirect('driver/register')
 	                    ->withErrors($validator)
@@ -66,11 +68,33 @@ class DriverController extends Controller
     	return view('truck.register')->withSuccess('Your Account was registered successfully');
     }
 
-    public function showTrucks(\App\Truck $truck,Request $request)
+    public function showTrucks(Truck $truck,Request $request)
     {
     	$trucks = $truck->where('user_id', $request->user()->id)->get();
 	    return view('driver.trucks',[
 	        'trucks' => $trucks,
 	    ]);
     }
+
+	public function show()
+    {
+
+    }
+
+    public function edit()
+    {
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
+
+
 }

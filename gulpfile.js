@@ -1,6 +1,6 @@
 var elixir = require('laravel-elixir');
 require('laravel-elixir-stylus');
-var postStylus = require('poststylus'); 
+var postStylus = require('poststylus');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -20,6 +20,11 @@ elixir(function(mix) {
    		use: [postStylus(['lost', 'autoprefixer','rucksack-css'])],
    		compress:true
 	});
+	mix.stylus('user.styl', null, {
+   		use: [postStylus(['lost', 'autoprefixer','rucksack-css'])],
+   		compress:true
+	});
 	mix.rollup('maps.js', 'public/js/maps.js');
+	mix.rollup('book.maps.js', 'public/js/book.maps.js');
 	//mix.webpack([ 'libs/jquery.js','maps.js'], 'public/js/maps.js');
 });

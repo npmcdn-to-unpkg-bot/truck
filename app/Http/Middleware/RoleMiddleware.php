@@ -16,6 +16,8 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
+        if(!$request->user()){ return abort(401,'You do not have the permission to access this page');}
+
         if (! $request->user()->hasRole($role)) {
              return abort(401,'You do not have the permission to access this page');
         }

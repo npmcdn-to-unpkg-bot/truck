@@ -7,6 +7,18 @@
 	<script src="/js/maps.js"></script>
 @endpush
 
+@push('styles')
+    <style media="screen">
+        .main-content{
+            padding:0px;
+        }
+
+        #googleMap{
+            height: 100%;
+        }
+    </style>
+@endpush
+
 @section('sidebar')
     @parent
 	<div id="refresh_map" class="btn btn-primary bg-darken-4 not-rounded">Refresh</div>

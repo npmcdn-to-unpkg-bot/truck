@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Validator;
+use App\TruckData;
 
 class AdminController extends Controller
 {
     public function showDrivers()
-    {	
+    {
     	$drivers =  \App\User::with('roles')->get();
     	$drivers = $drivers->filter(function ($value, $key) {
     		return $value->isDriver();
@@ -46,7 +47,7 @@ class AdminController extends Controller
 	        'tel' => 'required|numeric'
 
 	    ],$messages);
-		
+
 	    if ($validator->fails()) {
 	        return redirect('admin/register/user')
 	                    ->withErrors($validator)
@@ -93,18 +94,18 @@ class AdminController extends Controller
 	        'lng' => 'required|numeric',
 	        'active' => 'required|boolean'
 	    ],$messages);
-		
+
 	    if ($validator->fails()) {
 	        return redirect('admin/truck/input')
 	                    ->withErrors($validator)
 	                    ->withInput();
 	    }
-		
-		\App\TruckData::firstOrCreate([
-			'truck_id' => $request->input('id'), 
-			'speed' => $request->input('speed'), 
-			'lat' => $request->input('lat'), 
-			'lng' => $request->input('lng'), 
+
+		TruckData::firstOrCreate([
+			'truck_id' => $request->input('id'),
+			'speed' => $request->input('speed'),
+			'lat' => $request->input('lat'),
+			'lng' => $request->input('lng'),
 			'active' => $request->input('active')
 		]);
 
@@ -124,58 +125,97 @@ class AdminController extends Controller
     {
     	$truck = \App\Truck::findOrFail($id);
     	return view('admin.edit_truck')->with('truck',$truck);
-    	
+
     }
 
     public function showDriver($id)
-    {	
-    	$driver = \App\Driver::findOrFail($id);
-    	dd($driver);
+    {
+    	$driver = \App\User::findOrFail($id);
+    	if(!$driver->isDriver()){
+    		abort(404);
+    	}
+    	return view('admin.edit_driver')->with('driver',$driver);
     }
 
-    public function updateTruck($id)
+    public function updateTruck($id,Request $request)
     {
+    	$truck = \App\Truck::findOrFail($id);
     	$messages = [
-	    	'tons.required' => 'We need to know the weight of the truck!',
 	        'plate.required' => 'We need to know the plate number of the truck!',
 	        'plate_state.required' => 'We need to know the state of you plate number!'
 		];
 
 		$validator = Validator::make($request->all(), [
-	        'manufacture_date' => 'required|numeric',
+	        'manufacture_date' => '',
 	        'model' => '',
 	        'maker' => '',
 	        'tons' => '',
 	        'plate' => 'required',
-	        'plate_state' => 'required'
+	        'plate_state' => 'required',
+	        'password' => 'present'
 
 	    ],$messages);
-		
+
 	    if ($validator->fails()) {
-	        return back()
+	        return redirect('/admin/truck/'.$id.'/edit')
 	                    ->withErrors($validator)
-	                    ->withInput();
+	                    ->with('truck',$truck);
 	    }
-	   
-	    \App\Truck::create([
-	    	'user_id' => $request->user()->id,
-            'current_driver_id' =>$request->user()->id,
-	    	'manufacture_date'=> $request->input('manufacture_date'),
-	    	'model'=> $request->input('model'),
-	    	'maker'=> $request->input('maker'),
-	    	'tons'=> $request->input('tons'),
-	    	'plate'=> $request->input('plate'),
-	    	'plate_state'=> $request->input('plate_state')
-		]);
 
 
-	    return view('truck.register')->withSuccess('Your truck was added');
-    	
+
+		$truck->plate = $request->plate;
+		$truck->plate_state = $request->plate_state;
+		$truck->password = $request->password;
+		$truck->save();
+
+	    return view('admin.edit_truck')->with('truck',$truck)->withSuccess('The truck was updated');
+
     	dd($truck);
     }
 
-    public function updateDriver($id)
+    public function updateDriver($id,Request $request)
     {
+    	$driver = \App\User::findOrFail($id);
+    	if(!$driver->isDriver()){
+    		abort(404);
+    	}
+
+
+    	$messages = [
+			'first_name.required' => 'We need to know your First Name!',
+			'surname.required' => 'We need to know your Surname!',
+	    	'email.required' => 'We need to know your e-mail address!',
+	    	'tel.required' => 'We need to know your phone number!',
+	    	'supended.required' => 'We need to know if the user is suspended or not'
+		];
+
+		$validator = Validator::make($request->all(), [
+	        'first_name' => 'required',
+	        'surname' => 'required',
+	        'middle_name' => 'present',
+	        'email' => 'required|email|unique:users,email',
+	        'tel' => 'required|numeric',
+	        'supended' => 'required|boolean'
+
+	    ],$messages);
+
+	    if ($validator->fails()) {
+	        redirect('/admin/driver/'.$id.'/edit')
+	                    ->withErrors($validator)
+	                    ->with('driver',$driver);
+	    }
+	    $driver->update([
+	   		'first_name' => $request->input('first_name'),
+	        'surname' => $request->input('surname'),
+	        'middle_name' => $request->input('middle_name'),
+	        'email' => $request->input('email'),
+	        'tel' => '+234'.ltrim($request->input('tel'), '+234'),
+	        'suspend' => $request->input('supended')
+	   ]);
+
+    	 return view('admin.edit_driver')->with('driver',$driver)->withSuccess('The driver was updated');
+
     	dd($driver);
     }
 }

@@ -12,12 +12,12 @@
         <table class="table-light overflow-hidden bg-lighten-4 white">
             <thead>
               <tr>
-                <th>Driver's Id</th> <th>Driver's Name</th> <th>Driver's Phone number</th>
+                <th>Driver's Id</th> <th>Driver's Name</th> <th>Driver's Phone number</th> <th>Driver's Email</th>
               </tr>
             </thead>
             <tbody>
                 @foreach ($drivers as $driver)
-                  <tr> <td>{{ $driver->id }}</td> <td>{{ $driver->surname }} {{ $driver->middle_name }} {{ $driver->first_name }}</td> <td>{{ $driver->tel }}</td> </tr>
+                  <tr> <td>{{ $driver->id }}</td> <td>{{ $driver->surname }} {{ $driver->middle_name }} {{ $driver->first_name }}</td> <td>{{ $driver->tel }}</td> <td>{{ $driver->email }}</td></tr>
                 @endforeach
             </tbody>
         </table>

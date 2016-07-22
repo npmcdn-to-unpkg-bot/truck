@@ -8,22 +8,11 @@
 @endsection
 @section('page-title', 'Register a truck')
 @section('content')
-    @if (!empty($success))
-    	<div class="msg_success bg-green">{{ $success }}</div>
-	@endif
-    @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+        @include('partials._error')
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
 	<form action="/truck/register" class="register-truck" method="POST">
-		
+
 		<div class="form-group">
 			<label for="manufacture_date">Truck Manufacture Date</label>
 			<input type="text" id="manufacture_date" name="manufacture_date" required="required" value="{{old('manufacture_date')}}">

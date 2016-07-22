@@ -13,9 +13,10 @@ body{
 .main-container{
 	min-height:100vh;
 	width:100%;
-	background-image: linear-gradient(-90deg, #DBDBDB, #FFFFFF);
+	//background-image: linear-gradient(-90deg, rgb(119, 138, 145,.5), #88aa7e);
+	background: rgba(102, 149, 134,.05);
 	//border:2vh solid #fff;
-	/*padding:2vh;*/
+	padding:2vh;
 	//display:flex;
 	//flex-flow: row wrap;
 	//align-items: stretch;
@@ -30,11 +31,6 @@ body{
 	align-self: center;
 	margin-bottom:10px;
 	background:#444;
-}
-
-.msg_success{
-	width:200px;
-	padding:10px;
 }
 
 .logo{
@@ -54,20 +50,20 @@ body{
 		display:inline-block;
 		margin:0px;
 		margin-bottom:10px;
-		
+
 		font-size:1.5rem;
 		perspective:500px;
 		max-width:100%;
 		flex:1 auto;
 		padding:1px;
-		
+
 		&:hover a{
 			transform: scale(.97);
 		}
 	}
 	& a{
 		display:block;
-		background:#888;
+		background:#212121//#888;
 		color:#fff;
 		padding:10px;
 		text-decoration:none;
@@ -77,7 +73,7 @@ body{
 		font-family: 'Raleway', sans-serif;
 		font-weight:100;
 		&:hover{
-			background:#555;
+			background:lighten(#212121,5%)//#555;
 		}
 	}
 }
@@ -87,6 +83,11 @@ body{
 	padding:5px;
 	lost-utility: clearfix;
 	margin-bottom:2px;
+	text-transform:capitalize;
+	top:0px;
+	position:fixed;
+	width:100%;
+	z-index: 99999;
 	& > a{
 		//box-shadow:5px 5px 5px #333;
 		text-decoration:none;
@@ -95,7 +96,7 @@ body{
 
 .content-header{
 	background:#333;
-	padding:2rem;
+	padding:1.1rem;
 	width:100%;
 	text-align:left;
 	color:whitesmoke;
@@ -112,7 +113,7 @@ body{
 	lost-utility: clearfix;
 	display:flex;
 	flex-flow: row wrap;
-	
+
 	& > *{
 		float:left;
 		padding:20px;
@@ -121,30 +122,29 @@ body{
 	& label{
 		color:#fff;
 	}
-	& h1{
+	& h1,h2,h3,h4{
 		color:whitesmoke;
 	}
 }
 
 .alert{
+	padding:5px;
+	width:20rem;
+	border-radius:5px;
+	color:whitesmoke;
 	& > ul{
 		list-style:none;
 		padding:0px;
 		margin:0px;
-	}
-	& ul li{
-		color:white;
-		padding:5px;
-		display:block;
-		width:250px;
-		margin-bottom:5px;
+		lost-utility: clearfix;
+
 	}
 }
-
+.alert-success{
+	background:#2ecc40;
+}
 .alert-danger{
-	& ul li{
-		background:#9a1111;
-	}
+	background:#9a1111;
 }
 
 .truck,.driver{
@@ -154,7 +154,7 @@ body{
 	width:80%;
 	background:#444;
 	flex:1 1 80%;
-	
+
 	& > h1{
 		text-transform:capitalize;
 	}
@@ -180,13 +180,18 @@ body{
 	}
 	& > label{
 		margin-bottom:5px;
+		text-transform:capitalize;
 	}
-	& input{
+	input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week] {
+		width:20rem;
+	}
+	& input,select{
 		border:0px;
+		max-width:100%;
 		//width:50%;
 	}
 	& input[type="submit"]{
-		
+
 		padding:10px;
 	}
 }

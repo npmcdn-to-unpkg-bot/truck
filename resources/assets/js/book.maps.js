@@ -1,6 +1,7 @@
 import $ from './libs/jquery';
 window.jQuery = $;
 window.$ = $;
+
 class App {
 
     constructor() {
@@ -59,16 +60,28 @@ function setTruckInitData(truck,_data,map){
                 "marker":new google.maps.Marker({
                     position: new google.maps.LatLng(data[i]['data'][dataLen - 1]["lat"], data[i]['data'][dataLen - 1]["lng"]),
                     icon:(function(){
-                        if(data[i]['data'][dataLen - 1]["active"].toString() == '1'){
+                        if(!(data[i]['data'][dataLen - 1]["active"].toString() == '1')){
                             return "/images/marker-green.png";
                         }else{
                             return "/images/marker-red.png";
                         }
                     })(),
-                    title:data[i]['driver']['surname'] + " " + data[i]['driver']['middle_name'] + " " + data[i]['driver']['first_name']
+                    title:data[i]['tons'].toString()
                 }),
                 "infowindow" : new google.maps.InfoWindow({
-                    content: "<b>Driver's Name: </b>" + data[i]['driver']['surname'] + " " + data[i]['driver']['middle_name'] + " " + data[i]['driver']['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['driver']['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['driver']['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['plate_state'] + " <br/> "
+                    content: `
+                        <b>Truck Weigth</b> ${data[i]['tons']} <i>tons</i> <br>
+                        <a href="/truck/book/${data[i]['id']}" class="btn btn-primary bg-black not-rounded">book now </a>
+                        <!--<form action="/truck/book" method="post">
+
+                            <input type="hidden" name="_token" value="${$("input[name='_token']").val()}" id="_token">
+                            <input type="hidden" name="id" value=" ${data[i]['id']}">
+                            <div class="form-group">
+                                <input type="submit" value="book now" class="btn btn-primary bg-black not-rounded">
+                            </div>
+                        </form> -->
+
+                     `
                 }),
                 "id":data[i]["id"],
                 "active":data[i]['data'][dataLen - 1]["active"],
@@ -117,7 +130,7 @@ function setTruckData(truck,_data,map){
                             return "/images/marker-red.png";
                         }
                     })());
-                    truck[j]["infowindow"].setContent("<b>Driver's Name: </b>" + data[i]['driver']['surname'] + " " + data[i]['driver']['middle_name'] + " " + data[i]['driver']['first_name'] + " <br/> " + "<b>Truck's Number: </b>" + data[i]['id'] + " <br/> " + "<b>Truck's Speed: </b>" + data[i]['data'][dataLen - 1]["speed"] + " <br/> " + "<b>Driver's Phone Number: </b>" + data[i]['driver']['tel'] + " <br/> " + "<b>Driver's Email: </b>" + data[i]['driver']['email'] + " <br/> " + "<b>Truck's Plate: </b>" + data[i]['plate'] + " <br/> " + "<b>Truck's Plate State: </b>" + data[i]['plate_state'] + " <br/> ");
+                    //truck[j]["infowindow"].setContent("");
 
                 }else{
                     console.log("no data change");
@@ -142,7 +155,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/trucks",
+            url: "/book/maps",
             method: "POST",
             data: options,
             dataType: "json"
@@ -166,7 +179,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/trucks",
+            url: "/book/maps",
             method: "POST",
             data: options,
             dataType: "json"
@@ -199,14 +212,9 @@ function initialize() {
     // Create a DIV to hold the control and call Control()
     var ControlDiv = document.createElement('div');
     var homeControl = new Control(ControlDiv, map);
-    let button = document.getElementById('refresh_map');
     ControlDiv.index = 1;
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ControlDiv);
-
-    // button.addEventListener('click',function(){
-    //     newData();
-    // })
 
     loadInitData();
 
