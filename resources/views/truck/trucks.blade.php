@@ -7,6 +7,7 @@
 
 @endsection
 @section('page-title','All trucks')
+    @section('content-class','content-table')
 @section('content')
     @if (count($trucks) > 0)
         <table class="table-light overflow-hidden bg-lighten-4 white">

@@ -38,7 +38,7 @@
 					<h1>Sidebar</h1>
 					@yield('sidebar')
 				</aside>
-				<article class="main-content">
+				<article class="main-content @yield('content-class')">
 				 @yield('content')
 				</article>
 			</section>

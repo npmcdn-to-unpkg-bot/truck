@@ -7,6 +7,7 @@
 
 @endsection
 @section('page-title','All drivers')
+@section('content-class','content-table')
 @section('content')
     @if (count($drivers) > 0)
         <table class="table-light overflow-hidden bg-lighten-4 white">
@@ -21,6 +22,8 @@
                 @endforeach
             </tbody>
         </table>
+    @else
+        <h1>No driver registered yet</h1>
     @endif
 @endsection
 
