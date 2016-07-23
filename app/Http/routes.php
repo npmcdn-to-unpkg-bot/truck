@@ -39,21 +39,6 @@ Route::get('truck/book', 'BookTruckController@index')->name('truck.book');
 Route::get('truck/book/{id}', 'BookTruckController@show')->name('truck.book.show');
 Route::post('truck/book', 'BookTruckController@store');
 Route::post('book/maps', 'BookTruckController@maps');
-//
-// Route::get('app/trucks', function(){
-//
-//     $trucks = \App\Truck::with(['data'])->get();
-//     // $trucks = $truck::with(['data' => function ($query) {
-//     //     $query->where('active', '=', 1);
-//     //
-//     // }])->get();
-//
-//     $trucks = $trucks->filter(function ($value, $key) {
-//         return !!$value->data()->get()->last()->active;
-//     });
-//
-//     return  response()->json($trucks);
-// });
 
 Route::get('trucks', 'TruckController@showAllTrucks')->name('trucks.show');
 Route::post('trucks', 'TruckController@allTrucks')->name('trucks');

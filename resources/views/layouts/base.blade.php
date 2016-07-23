@@ -2,16 +2,23 @@
 <html lang="en">
  @include('partials._head')
 <body>
-	@if(Auth::check())
+
 		<div class="info-bar">
+            @unless(Auth::check())
+                <a href="/signin" class="inline-block px2 bg-darken-4 right white h4">Signin</a>
+            <a href="/register" class="inline-block px2 bg-darken-4 right white h4 mr1">Signup</a>
+            @endunless
+
+            @if(Auth::check())
 			<a href="/signout" class="inline-block px2 bg-red right white h4">Signout</a>
 			@foreach((Auth::user()->load('roles')->roles) as $role)
 				<a class="inline-block px2 bg-darken-4 left white h4">{{$role->name}}</a>
 			@endforeach
 			<a href="#0" class="inline-block px2 bg-darken-4 right white h4">{{Auth::user()->full_name}}</a>
+            @endif
 		</div>
-        
-	@endif
+
+
 	<main class="main-container">
 		<header class="main-header">
 

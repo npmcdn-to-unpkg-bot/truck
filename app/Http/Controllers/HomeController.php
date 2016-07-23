@@ -23,7 +23,7 @@ class HomeController extends Controller
 
     public function home()
     {
-    	return view('home');
+    	return view('book.maps');
     }
 
     public function showSignin()
@@ -55,7 +55,10 @@ class HomeController extends Controller
 
     		return redirect('/');
 		}
-	    return view('signin');
+		 $validator->getMessageBag()->add('password', 'Password wrong');
+	    return redirect('signin')
+				->withErrors($validator)
+				->withInput();
     }
      public function signout(Request $request)
     {
