@@ -45,7 +45,7 @@
 	function Control(controlDiv, map) {
 	  controlDiv.style.padding = '5px';
 	  var controlUI = document.createElement('div');
-	  controlUI.style.backgroundColor = '#111';
+	  controlUI.style.backgroundColor = '#708090';
 	  controlUI.style.color = '#fff';
 	  controlUI.style.border='1px solid';
 	  controlUI.style.cursor = 'pointer';
@@ -55,7 +55,7 @@
 	  var controlText = document.createElement('div');
 	  controlText.style.fontFamily='roboto,sans-serif';
 	  controlText.style.fontSize='12px';
-	  controlText.style.fontWeight='100';
+	  controlText.style.fontWeight='400';
 	  controlText.style.padding = '4px';
 	  controlText.innerHTML = 'See all trucks'
 	  controlUI.appendChild(controlText);
@@ -88,7 +88,7 @@
 	                    title:data[i]['tons'].toString()
 	                }),
 	                "infowindow" : new google.maps.InfoWindow({
-	                    content: ("\n                        <b>Truck Weigth</b> " + (data[i]['tons']) + " <i>tons</i> <br>\n                        <a href=\"/truck/book/" + (data[i]['id']) + "\" class=\"btn btn-primary bg-black not-rounded\">book now </a>\n                        <!--<form action=\"/truck/book\" method=\"post\">\n\n                            <input type=\"hidden\" name=\"_token\" value=\"" + ($("input[name='_token']").val()) + "\" id=\"_token\">\n                            <input type=\"hidden\" name=\"id\" value=\" " + (data[i]['id']) + "\">\n                            <div class=\"form-group\">\n                                <input type=\"submit\" value=\"book now\" class=\"btn btn-primary bg-black not-rounded\">\n                            </div>\n                        </form> -->\n\n                     ")
+	                    content: ("\n                        <h3 class=\"black m0\" style=\"color:#333;\">Truck Weigth</h3>  <i class=\"h5 bold green\">" + (data[i]['tons']) + " tons</i> <br>\n                        <a href=\"/truck/book/" + (data[i]['id']) + "\" class=\"btn btn-primary bg-black not-rounded\">book now </a>\n                        <!--<form action=\"/truck/book\" method=\"post\">\n\n                            <input type=\"hidden\" name=\"_token\" value=\"" + ($("input[name='_token']").val()) + "\" id=\"_token\">\n                            <input type=\"hidden\" name=\"id\" value=\" " + (data[i]['id']) + "\">\n                            <div class=\"form-group\">\n                                <input type=\"submit\" value=\"book now\" class=\"btn btn-primary bg-black not-rounded\">\n                            </div>\n                        </form> -->\n\n                     ")
 	                }),
 	                "id":data[i]["id"],
 	                "active":data[i]['data'][dataLen - 1]["active"],
@@ -213,7 +213,7 @@
 	    var mapProp = {
 	        center: new google.maps.LatLng(9.180471, 7.916594),
 	        zoom: 6,
-	        mapTypeId: google.maps.MapTypeId.HYBRID,
+	        mapTypeId: google.maps.MapTypeId.TERRAIN,
 	        scrollwheel:false
 	    };
 

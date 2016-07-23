@@ -25,7 +25,7 @@ class App {
 function Control(controlDiv, map) {
   controlDiv.style.padding = '5px';
   var controlUI = document.createElement('div');
-  controlUI.style.backgroundColor = '#111';
+  controlUI.style.backgroundColor = '#708090';
   controlUI.style.color = '#fff';
   controlUI.style.border='1px solid';
   controlUI.style.cursor = 'pointer';
@@ -35,7 +35,7 @@ function Control(controlDiv, map) {
   var controlText = document.createElement('div');
   controlText.style.fontFamily='roboto,sans-serif';
   controlText.style.fontSize='12px';
-  controlText.style.fontWeight='100';
+  controlText.style.fontWeight='400';
   controlText.style.padding = '4px';
   controlText.innerHTML = 'See all trucks'
   controlUI.appendChild(controlText);
@@ -189,7 +189,7 @@ function initialize() {
     var mapProp = {
         center: new google.maps.LatLng(9.180471, 7.916594),
         zoom: 6,
-        mapTypeId: google.maps.MapTypeId.HYBRID,
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
         scrollwheel:false
     };
 
