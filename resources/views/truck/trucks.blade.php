@@ -22,8 +22,18 @@
                 @endforeach
             </tbody>
         </table>
+        <nav class="nav-links">
+
+            @if(1 != $trucks->currentPage() )
+
+                <a href="{{$trucks->previousPageUrl()}}" class="nav-link nav-link-prev">Previous page</a>
+            @endif
+            @if($trucks->hasMorePages())
+                <a href="{{$trucks->nextPageUrl()}}" class="nav-link nav-link-next">Next page</a>
+            @endif
+        </nav>
     @else
-        <h1>No truck registered yet</h1>
+        <h1>No trucks found</h1>
     @endif
 @endsection
 

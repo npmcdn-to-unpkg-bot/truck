@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 use App\Http\Requests;
 use App\Truck;
@@ -24,6 +25,7 @@ class DriverController extends Controller
     	$drivers = $drivers->filter(function ($value, $key) {
     		return $value->isDriver();
 		});
+		$paginator = new Paginator($drivers->toArray(),2);
     	return view('driver.drivers',[
     		'drivers' => $drivers
     	]);

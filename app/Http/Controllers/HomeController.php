@@ -13,7 +13,7 @@ class HomeController extends Controller
 	{
 
 		$this->middleware('auth', ['only' => [
-	        'signout',
+	        'signout','showMaps'
         ]]);
 
 		$this->middleware('guest', ['only' => [

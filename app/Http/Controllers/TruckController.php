@@ -95,7 +95,7 @@ class TruckController extends Controller
     public function showAllTrucks(Truck $truck,Request $request)
     {
         if($request->user()->isAdmin()){
-           $trucks = $truck->with(['data','driver'])->get();
+           $trucks = $truck->with(['data','driver'])->simplePaginate(1);
            return view('truck.trucks',[
    	           'trucks' => $trucks,
    	        ]);
