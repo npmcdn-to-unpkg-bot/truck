@@ -53,6 +53,7 @@ body{
 	display:flex;
 	flex-flow: row wrap;
 	margin:0 auto;
+	justify-content: flex-start;
 	& > h1{
 		display:inline-block;
 		margin:0px;
@@ -60,11 +61,11 @@ body{
 		font-size:1.5rem;
 		perspective:500px;
 		max-width:100%;
-		flex:1 auto;
+		flex:0 1 auto;
 		padding:1px;
 
 		&:hover a{
-			transform: scale(.9);
+			//transform: scale(.9);
 		}
 	}
 	& a{
@@ -80,8 +81,10 @@ body{
 		font-family: 'Raleway', sans-serif;
 		font-weight:500;
 		text-align: center;
+		text-transform: capitalize;
 		&:hover{
-			background:lighten(#708090,20%)//#555;
+			//background:lighten(#708090,20%)//#555;
+			color: whitesmoke;
 		}
 	}
 }

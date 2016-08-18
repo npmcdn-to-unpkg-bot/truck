@@ -13,7 +13,7 @@ class HomeController extends Controller
 	{
 
 		$this->middleware('auth', ['only' => [
-	        'signout','showMaps'
+	        'signout','showMapsOfAllTrucks'
         ]]);
 
 		$this->middleware('guest', ['only' => [
@@ -66,8 +66,11 @@ class HomeController extends Controller
     	return  redirect('/');
     }
 
-	public function showMaps()
+	public function showMapsOfAllTrucks()
     {
+		if (Auth::user()->isClient()) {
+			return view('book.maps');
+		}
     	return view('maps');
     }
 

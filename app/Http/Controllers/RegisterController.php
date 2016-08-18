@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Http\Requests;
 use App\User;
+use App\Role;
 
 class RegisterController extends Controller
 {
@@ -46,7 +47,7 @@ class RegisterController extends Controller
 	                    ->withErrors($validator)
 	                    ->withInput();
 	    }
-        $role = \App\Role::where('name', '=', $request->input('user_role'))->firstOrFail()->id;
+        $role = Role::nameToId($request->input('user_role'));
 	   $user = $user->create([
 	   		'first_name' => $request->input('first_name'),
 	        'surname' => $request->input('surname'),
@@ -55,7 +56,7 @@ class RegisterController extends Controller
 	        'password'=> bcrypt($request->input('password')),
 	        'tel' => '+234'.ltrim($request->input('tel'), '0')
 	   ]);
-	   $user->roles()->attach($role);
+	   $user->roles()->sync([$role]);
     	return view('register')->withSuccess('the Account was registered successfully');
     }
 
@@ -91,7 +92,7 @@ class RegisterController extends Controller
 	                    ->withErrors($validator)
 	                    ->withInput();
 	    }
-        $role = \App\Role::where('name', '=', 'driver')->firstOrFail()->id;
+        $role = Role::nameToId('driver');
 	   $user = $user->create([
 	   		'first_name' => $request->input('first_name'),
 	        'surname' => $request->input('surname'),

@@ -76,9 +76,12 @@ class TruckController extends Controller
     	return view('truck.show')->with('truck',$truck);
     }
 
-    public function edit()
+    public function edit($id)
     {
-
+        $truck = Truck::findOrFail($id);
+        return view('admin.edit_truck',[
+            'truck' => $truck
+        ]);
     }
 
     public function update()
@@ -95,7 +98,7 @@ class TruckController extends Controller
     public function showAllTrucks(Truck $truck,Request $request)
     {
         if($request->user()->isAdmin()){
-           $trucks = $truck->with(['data','driver'])->simplePaginate(1);
+           $trucks = $truck->with(['data','driver'])->simplePaginate(20);
            return view('truck.trucks',[
    	           'trucks' => $trucks,
    	        ]);

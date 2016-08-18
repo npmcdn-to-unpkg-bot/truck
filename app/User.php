@@ -29,7 +29,7 @@ class User extends Authenticatable
         return $this->roles->contains('name',$role);
     }
 
-   
+
     public function isAdmin()
     {
         return $this->roles->contains('name','admin');
@@ -38,6 +38,11 @@ class User extends Authenticatable
     public function isDriver()
     {
         return $this->roles->contains('name','driver');
+    }
+
+    public function isClient()
+    {
+        return $this->roles->contains('name','client');
     }
 
     /**

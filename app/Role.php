@@ -14,6 +14,11 @@ class Role extends Model
         return $this->belongsToMany('App\User');
     }
 
+    static public function nameToId($name='client')
+    {
+        return (new static)::where('name', '=', $name)->firstOrFail()->id;
+    }
+
     /**
      * The attributes that are mass assignable.
      *

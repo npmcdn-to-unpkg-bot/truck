@@ -19,15 +19,13 @@ Route::get('signout', 'HomeController@signout');
 
 Route::get('register', 'RegisterController@create')->name('register.create');
 Route::post('register', 'RegisterController@store')->name('register.store');
-Route::get('maps', 'HomeController@showMaps')->name('maps.show');
+Route::get('truck/maps', 'HomeController@showMapsOfAllTrucks')->name('maps.show');
 
 Route::get('driver/{id}', 'DriverController@show')->name('driver.show')->where('id', '[0-9]+');
 Route::get('driver/{id}/edit', 'DriverController@edit')->name('driver.edit');
 Route::put('driver/{id}', 'DriverController@update')->name('driver.update');
 Route::delete('driver/{id}', 'DriverController@destroy')->name('driver.destroy');
 Route::get('drivers', 'DriverController@showAllDrivers')->name('drivers.show');
-
-
 
 Route::get('truck/input', 'TruckController@showInput')->name('truck.input.show');
 Route::post('truck/input', 'TruckController@storeInput')->name('truck.input.create');
@@ -49,40 +47,34 @@ Route::put('truck/{id}', 'TruckController@update')->name('truck.update');
 Route::delete('truck/{id}', 'TruckController@destroy')->name('truck.destroy');
 
 
+Route::any('input', ['as' => 'truck.data',function(){
 
-// Route::group(['middleware' => ['auth','role:admin']], function () {
-//
-//         //truck/maps/input/3/12/12/12/0/hello
-    Route::any('input', ['as' => 'truck.data',function(){
+    $validator = Validator::make(request()->all(), [
+        'id' => 'required|integer|exists:trucks,id' ,
+        'speed' => 'required|numeric',
+        'lat' => 'required|numeric',
+        'lng' => 'required|numeric',
+        'active' => 'required|boolean',
+        'password' =>'required'
+    ]);
 
-        $validator = Validator::make(request()->all(), [
-	        'id' => 'required|integer|exists:trucks,id' ,
-	        'speed' => 'required|numeric',
-	        'lat' => 'required|numeric',
-	        'lng' => 'required|numeric',
-	        'active' => 'required|boolean',
-            'password' =>'required'
-	    ]);
+    if ($validator->fails()) {
+        abort(403, 'Unauthorized action.');
+    }
 
-	    if ($validator->fails()) {
-	        abort(403, 'Unauthorized action.');
-	    }
+    $truck = \App\Truck::findOrFail(request()->input('id'));
 
-        $truck = \App\Truck::findOrFail(request()->input('id'));
+    if(!($truck->password === request()->input('password'))){
+        abort(403, 'Unauthorized action.');
+    }
 
-        if(!($truck->password === request()->input('password'))){
-            abort(403, 'Unauthorized action.');
-        }
+    App\TruckData::create([
+        'truck_id' => request()->input('id'),
+        'speed' => request()->input('speed'),
+        'lat' => request()->input('lat'),
+        'lng' => request()->input('lng'),
+        'active' => request()->input('active')
+    ]);
 
-        App\TruckData::create([
-            'truck_id' => request()->input('id'),
-            'speed' => request()->input('speed'),
-            'lat' => request()->input('lat'),
-            'lng' => request()->input('lng'),
-            'active' => request()->input('active')
-        ]);
-
-        return "data inserted successfully";
-    }]);
-//
-// });
+    return "data inserted successfully";
+}]);
