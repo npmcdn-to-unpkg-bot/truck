@@ -14,12 +14,15 @@ class CreateVehiclesTable extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->index()->unsigned();
             $table->string('manufacture_date');
+            $table->string('type')->nullable();
             $table->string('model');
             $table->string('maker');
+            $table->integer('tons')->nullable();
             $table->string('plate');
             $table->string('plate_state');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

@@ -142,7 +142,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/trucks",
+            url: "/truck/maps",
             method: "POST",
             data: options,
             dataType: "json"
@@ -166,7 +166,7 @@ function initialize() {
         };
 
         var jqxhr = $.ajax({
-            url: "/trucks",
+            url: "/truck/maps",
             method: "POST",
             data: options,
             dataType: "json"

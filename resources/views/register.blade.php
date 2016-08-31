@@ -11,7 +11,7 @@
     @include('partials._error')
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
-	<form action="{{route('register.store')}}" class="register_driver" method="POST">
+	<form action="register" class="register_driver" method="POST">
         @if(Auth::check())
         @if(Auth::user()->isAdmin())
     		<div class="form-group">

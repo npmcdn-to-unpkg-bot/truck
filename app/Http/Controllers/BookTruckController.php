@@ -11,12 +11,11 @@ class BookTruckController extends Controller
 {
     public function __construct()
     {
-
     }
 
     public function index()
     {
-    	return view('book.maps');
+        return view('book.maps');
     }
 
     public function store()
@@ -24,15 +23,10 @@ class BookTruckController extends Controller
         return view('book.maps');
     }
 
-    public function show($id)
+    public function show(Truck $truck)
     {
-        $truck = Truck::findOrFail($id);
-    	return view('book.show')->with('truck',$truck);
+
+        return view('book.show')->withTruck($truck);
     }
 
-    public function maps()
-    {
-        $trucks = Truck::active()->toArray();
-        return  json_encode(array_values($trucks));
-    }
 }

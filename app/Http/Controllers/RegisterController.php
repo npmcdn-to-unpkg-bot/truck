@@ -56,7 +56,7 @@ class RegisterController extends Controller
 	        'password'=> bcrypt($request->input('password')),
 	        'tel' => '+234'.ltrim($request->input('tel'), '0')
 	   ]);
-	   $user->roles()->sync([$role]);
+	   $user->addRole($role);
     	return view('register')->withSuccess('the Account was registered successfully');
     }
 
@@ -101,7 +101,7 @@ class RegisterController extends Controller
 	        'password'=> bcrypt($request->input('password')),
 	        'tel' => '+234'.ltrim($request->input('tel'), '0')
 	   ]);
-	   $user->roles()->attach($role);
+	   $user->addRole($role);
     	return view('register')->withSuccess('the Account was registered successfully');
 
     }

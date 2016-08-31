@@ -16,7 +16,7 @@ class Role extends Model
 
     static public function nameToId($name='client')
     {
-        return (new static)::where('name', '=', $name)->firstOrFail()->id;
+        return static::where('name', '=', $name)->firstOrFail()->id;
     }
 
     /**

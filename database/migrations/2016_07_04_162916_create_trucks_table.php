@@ -14,8 +14,7 @@ class CreateTrucksTable extends Migration
     {
         Schema::create('trucks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('current_driver_id');
+            $table->integer('user_id')->index()->unsigned();
             $table->string('manufacture_date');
             $table->string('model');
             $table->string('maker');

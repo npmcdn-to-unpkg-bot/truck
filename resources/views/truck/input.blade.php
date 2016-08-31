@@ -9,7 +9,7 @@
 @section('page-title','Input truck info')
 @section('content')
 	@include('partials._error')
-	<form action="{{route('truck.input.create')}}" class="admin_input" method="POST">
+	<form action="{{route('truck.input.store')}}" class="admin_input" method="POST">
 		<div class="form-group">
 			<label for="id">Truck Id</label>
 			<input type="number" id="id" name="id" required="required" value="{{old('id')}}">

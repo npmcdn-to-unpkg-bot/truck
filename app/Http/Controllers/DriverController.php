@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
 use App\Http\Requests;
-use App\Truck;
-use Validator,Auth;
 use App\User;
 
 class DriverController extends Controller
@@ -15,88 +13,83 @@ class DriverController extends Controller
 	public function __construct()
 	{
 		$this->middleware('role:admin', ['only' => [
-	        'showAllDrivers'
+	        'index'
         ]]);
 	}
 
-	public function showAllDrivers()
+	public function index()
 	{
-		$drivers =  User::with('roles')->get();
-    	$drivers = $drivers->filter(function ($value, $key) {
-    		return $value->isDriver();
-		});
-		$paginator = new Paginator($drivers->toArray(),2);
+
+		$drivers = User::drivers();
+		//$paginator = new Paginator($drivers->toArray(),2);
     	return view('driver.drivers',[
     		'drivers' => $drivers
     	]);
 	}
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    public function createDriver(Request $request, User $user)
-    {
-    	$messages = [
-			'first_name.required' => 'We need to know your First Name!',
-			'surname.required' => 'We need to know your Surname!',
-	    	'email.required' => 'We need to know your e-mail address!',
-	    	'password.required' => 'We need to know your password!',
-	    	'tel.required' => 'We need to know your phone number!'
-		];
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		//
+	}
 
-		$validator = Validator::make($request->all(), [
-	        'first_name' => 'required',
-	        'surname' => 'required',
-	        'middle_name' => 'present',
-	        'email' => 'required|email|unique:users,email',
-	        'password'=> 'required',
-	        'tel' => 'required|numeric'
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show($id)
+	{
+		//
+	}
 
-	    ],$messages);
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
 
-	    if ($validator->fails()) {
-	        return redirect('driver/register')
-	                    ->withErrors($validator)
-	                    ->withInput();
-	    }
-	   $user = $user->create([
-	   		'first_name' => $request->input('first_name'),
-	        'surname' => $request->input('surname'),
-	        'middle_name' => $request->input('middle_name'),
-	        'email' => $request->input('email'),
-	        'password'=> bcrypt($request->input('password')),
-	        'tel' => '+234'.ltrim($request->input('tel'), '0')
-	   ]);
-	   $role = \App\Role::where('name', '=', 'driver')->firstOrFail()->id;
-	   $user->roles()->attach($role);
-	   Auth::login($user);
-    	return view('truck.register')->withSuccess('Your Account was registered successfully');
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id)
+	{
+		//
+	}
 
-    public function showTrucks(Truck $truck,Request $request)
-    {
-    	$trucks = $truck->where('user_id', $request->user()->id)->get();
-	    return view('driver.trucks',[
-	        'trucks' => $trucks,
-	    ]);
-    }
-
-	public function show()
-    {
-
-    }
-
-    public function edit()
-    {
-
-    }
-
-    public function update()
-    {
-
-    }
-
-    public function destroy()
-    {
-
-    }
-
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
 
 }

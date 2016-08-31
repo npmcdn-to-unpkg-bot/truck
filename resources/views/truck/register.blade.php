@@ -11,7 +11,7 @@
         @include('partials._error')
 @if ($errors->has('email')) <!--<p class="alert alert-danger">{{ $errors->first('email') }}</p> --> @endif
 
-	<form action="/truck/register" class="register-truck" method="POST">
+	<form action="{{ route('truck.store') }}" class="register-truck" method="POST">
 
 		<div class="form-group">
 			<label for="manufacture_date">Truck Manufacture Date</label>

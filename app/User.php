@@ -29,20 +29,29 @@ class User extends Authenticatable
         return $this->roles->contains('name',$role);
     }
 
+    public function addRole($role)
+    {
+        $this->roles()->attach($role);
+    }
+
+    public function romoveRole($role)
+    {
+        $this->roles()->detach($role);
+    }
 
     public function isAdmin()
     {
-        return $this->roles->contains('name','admin');
+        return $this->hasRole('admin');
     }
 
     public function isDriver()
     {
-        return $this->roles->contains('name','driver');
+        return $this->hasRole('driver');
     }
 
     public function isClient()
     {
-        return $this->roles->contains('name','client');
+        return $this->hasRole('client');
     }
 
     /**
@@ -70,5 +79,12 @@ class User extends Authenticatable
     public function trucks()
     {
         return $this->hasMany('App\Truck');
+    }
+
+    static public function drivers()
+    {
+        return static::with('roles')->get()->filter(function ($value, $key) {
+    		return $value->isDriver();
+		});
     }
 }

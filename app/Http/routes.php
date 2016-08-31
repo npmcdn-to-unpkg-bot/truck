@@ -13,68 +13,37 @@
 
 
 Route::get('/', 'HomeController@home')->name('home');
-Route::get('signin', 'HomeController@showSignin')->name('signin');
-Route::post('signin', 'HomeController@signin');
-Route::get('signout', 'HomeController@signout');
 
-Route::get('register', 'RegisterController@create')->name('register.create');
-Route::post('register', 'RegisterController@store')->name('register.store');
-Route::get('truck/maps', 'HomeController@showMapsOfAllTrucks')->name('maps.show');
-
-Route::get('driver/{id}', 'DriverController@show')->name('driver.show')->where('id', '[0-9]+');
-Route::get('driver/{id}/edit', 'DriverController@edit')->name('driver.edit');
-Route::put('driver/{id}', 'DriverController@update')->name('driver.update');
-Route::delete('driver/{id}', 'DriverController@destroy')->name('driver.destroy');
-Route::get('drivers', 'DriverController@showAllDrivers')->name('drivers.show');
-
-Route::get('truck/input', 'TruckController@showInput')->name('truck.input.show');
-Route::post('truck/input', 'TruckController@storeInput')->name('truck.input.create');
-
-Route::get('truck/register', 'TruckController@create')->name('truck.create');
-Route::post('truck/register', 'TruckController@store')->name('truck.store');
-
-Route::get('truck/book', 'BookTruckController@index')->name('truck.book');
-Route::get('truck/book/{id}', 'BookTruckController@show')->name('truck.book.show');
-Route::post('truck/book', 'BookTruckController@store');
-Route::post('book/maps', 'BookTruckController@maps');
-
-Route::get('trucks', 'TruckController@showAllTrucks')->name('trucks.show');
-Route::post('trucks', 'TruckController@allTrucks')->name('trucks');
-
-Route::get('truck/{id}', 'TruckController@show')->name('truck.show')->where('id', '[0-9]+');
-Route::get('truck/{id}/edit', 'TruckController@edit')->name('truck.edit');
-Route::put('truck/{id}', 'TruckController@update')->name('truck.update');
-Route::delete('truck/{id}', 'TruckController@destroy')->name('truck.destroy');
+//Login Routes
+Route::get('signin', 'LoginController@showSigninForm');
+Route::post('signin', 'LoginController@signin');
+Route::get('signout', 'LoginController@signout');
 
 
-Route::any('input', ['as' => 'truck.data',function(){
+//Client Registration routes
+Route::get('register', 'RegisterController@create');
+Route::post('register', 'RegisterController@store');
 
-    $validator = Validator::make(request()->all(), [
-        'id' => 'required|integer|exists:trucks,id' ,
-        'speed' => 'required|numeric',
-        'lat' => 'required|numeric',
-        'lng' => 'required|numeric',
-        'active' => 'required|boolean',
-        'password' =>'required'
-    ]);
 
-    if ($validator->fails()) {
-        abort(403, 'Unauthorized action.');
-    }
+// Truck data input routes
+Route::get('truck/input/create', 'InputController@create')->name('truck.input.create');
+Route::post('truck/input', 'InputController@store')->name('truck.input.store');
+Route::any('input','InputController@input')->name('truck.data');
 
-    $truck = \App\Truck::findOrFail(request()->input('id'));
 
-    if(!($truck->password === request()->input('password'))){
-        abort(403, 'Unauthorized action.');
-    }
+//Truck Booking controller
+Route::get('truck/book', 'BookTruckController@index')->name('truck.book.index');
+Route::get('truck/book/{truck}', 'BookTruckController@show');
+Route::post('truck/book', 'BookTruckController@store')->name('truck.book.store');
+Route::post('truck/book/maps', 'MapsController@bookMapsJson')->name('truck.book.json');
 
-    App\TruckData::create([
-        'truck_id' => request()->input('id'),
-        'speed' => request()->input('speed'),
-        'lat' => request()->input('lat'),
-        'lng' => request()->input('lng'),
-        'active' => request()->input('active')
-    ]);
+//Driver Routes
+Route::resource('driver', 'DriverController');
 
-    return "data inserted successfully";
-}]);
+//Vehicle Routes
+Route::resource('vehicle', 'VehicleController');
+
+//truck routes
+Route::get('truck/maps', 'MapsController@showMapsOfAllTrucks')->name('truck.maps');
+Route::post('truck/maps', 'MapsController@JsonDataOfAllTrucks')->name('truck.json');
+Route::resource('truck', 'TruckController');
